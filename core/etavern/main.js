@@ -141,7 +141,7 @@ async function render(model) {
   av.video.style.display = "none"
 
   // Resize orthographic camera to video dimensions if necessary.
-  if (width !== av.video.videoWidth || height !== av.video.videoHeight) {
+ /* if (width !== av.video.videoWidth || height !== av.video.videoHeight) {
     const w = av.video.videoWidth;
     const h = av.video.videoHeight;
     camera.left = -0.5 * w;
@@ -153,7 +153,7 @@ async function render(model) {
     height = h;
     resize();
     faceGeometry.setSize(w, h); // DT - this appears to be the trick to getting the camera to fit the zoom windows.
-  }
+  } */
   //console.log(faceGeometry)
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
