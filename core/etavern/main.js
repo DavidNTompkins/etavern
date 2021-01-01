@@ -152,9 +152,9 @@ async function render(model) {
     width = w;
     height = h;
     resize();
-    faceGeometry.setSize(w, h);
+    faceGeometry.setSize(w, h); // DT - this appears to be the trick to getting the camera to fit the zoom windows.
   }
-
+  console.log(faceGeometry)
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
 
