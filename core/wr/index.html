@@ -39,6 +39,11 @@ connection.session = {
     video: false
 };
 
+connection.mediaConstraints = {
+    audio: true,
+    video: false
+};
+
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: true,
     OfferToReceiveVideo: false
@@ -47,14 +52,15 @@ connection.sdpConstraints.mandatory = {
 // unclear if this is just creating video? Should try removing.
 connection.onstream = function(event) {
     document.body.appendChild( event.mediaElement );
-};
-
-//sending data - should be within facemodel (on each update)
-connection.send({
+    connection.send({
     username: local_username,
     texture: local_texture,
     facemesh: local_facemesh
 });
+};
+
+//sending data - should be within facemodel (on each update)
+
 
 //receiving data - should include a call to render new faces (I think this will be better than rendering in waves)
 connection.onmessage = function(event) {
