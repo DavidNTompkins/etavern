@@ -23,28 +23,48 @@
 
 <script type="text/javascript">
 
+//some dummy variables until I get everything integrated
+local_username="Hogs"
+local_texture="Rabbits"
+local_facemesh="Bananas"
+
 var connection = new RTCMultiConnection();
 
 // this line is VERY_important
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
-// all below lines are optional; however recommended.
-
 connection.session = {
     audio: true,
-    video: true
+    data: true
 };
 
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: true,
-    OfferToReceiveVideo: true
+    OfferToReceiveVideo: false
 };
 
+// unclear if this is just creating video? Should try removing.
 connection.onstream = function(event) {
     document.body.appendChild( event.mediaElement );
 };
 
-var predefinedRoomId = 'YOUR_Name';
+//sending data - should be within facemodel (on each update)
+connection.send({
+    username: local_username,
+    texture: local_texture,
+    facemesh: local_facemesh
+});
+
+//receiving data - should include a call to render new faces (I think this will be better than rendering in waves)
+connection.onmessage = function(event) {
+    var other_user = event.username;
+    var other_texture = event.texture;
+    var facemesh = event.facemesh;
+    console.log(facemesh)
+};
+
+
+var predefinedRoomId = 'etavern';
 
 document.getElementById('btn-open-room').onclick = function() {
     this.disabled = true;
