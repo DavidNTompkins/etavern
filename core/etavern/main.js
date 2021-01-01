@@ -91,7 +91,7 @@ const material = new MeshStandardMaterial({
 });
 
 // Create a new geometry helper.
-const faceGeometry = new FaceMeshFaceGeometry();
+const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
 
 // Create mask mesh.
 const mask = new Mesh(faceGeometry, material);
@@ -154,7 +154,7 @@ async function render(model) {
     resize();
     faceGeometry.setSize(w, h); // DT - this appears to be the trick to getting the camera to fit the zoom windows.
   }
-  console.log(faceGeometry)
+  //console.log(faceGeometry)
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
 
