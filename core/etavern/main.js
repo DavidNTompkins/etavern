@@ -92,7 +92,7 @@ const material = new MeshStandardMaterial({
 
 // Create a new geometry helper.
 const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
-faceGeometry.setSize(w, h)
+faceGeometry.setSize(300, 300)
 
 // Create mask mesh.
 const mask = new Mesh(faceGeometry, material);
