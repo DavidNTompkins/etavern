@@ -97,7 +97,7 @@ const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
 const mask = new Mesh(faceGeometry, material);
 scene.add(mask);
 mask.receiveShadow = mask.castShadow = true;
-mask.position.set(100,100,100);
+mask.position.set(200,200,200);
 
 // Add lights.
 const spotLight = new SpotLight(0xffffff, 0.5);
