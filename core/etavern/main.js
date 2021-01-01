@@ -92,6 +92,7 @@ const material = new MeshStandardMaterial({
 
 // Create a new geometry helper.
 const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
+faceGeometry.setSize(w, h)
 
 // Create mask mesh.
 const mask = new Mesh(faceGeometry, material);
@@ -141,7 +142,7 @@ async function render(model) {
   av.video.style.display = "none"
 
   // Resize orthographic camera to video dimensions if necessary.
- /* if (width !== av.video.videoWidth || height !== av.video.videoHeight) {
+  /*if (width !== av.video.videoWidth || height !== av.video.videoHeight) {
     const w = av.video.videoWidth;
     const h = av.video.videoHeight;
     camera.left = -0.5 * w;
