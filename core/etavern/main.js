@@ -50,14 +50,14 @@ function resize() {
   const windowAspectRatio = windowWidth / windowHeight;
   let adjustedWidth;
   let adjustedHeight;
-  if (videoAspectRatio > windowAspectRatio) {
+ /* if (videoAspectRatio > windowAspectRatio) {
     adjustedWidth = windowWidth;
     adjustedHeight = windowWidth / videoAspectRatio;
   } else {
     adjustedWidth = windowHeight * videoAspectRatio;
     adjustedHeight = windowHeight;
   }
-  renderer.setSize(adjustedWidth, adjustedHeight);
+  renderer.setSize(adjustedWidth, adjustedHeight); */
   debugCamera.aspect = videoAspectRatio;
   debugCamera.updateProjectionMatrix();
 }
@@ -97,7 +97,7 @@ const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
 const mask = new Mesh(faceGeometry, material);
 scene.add(mask);
 mask.receiveShadow = mask.castShadow = true;
-mask.position.set(200,200,200);
+//mask.position.set(200,200,200); //weirdly does not keep graphics - may need to shift texture as well
 
 // Add lights.
 const spotLight = new SpotLight(0xffffff, 0.5);
