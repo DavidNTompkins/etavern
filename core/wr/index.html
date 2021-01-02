@@ -11,9 +11,7 @@
   
   <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
   <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-  <script type="module" src="../../js/face.js"></script>
-  <script type="module" src="../../third_party/three.module.js"></script>
-  <script type="module" src="../../third_party/OrbitControls.js"></script>
+  
   
 </head>
 
@@ -30,7 +28,30 @@
       <canvas id="canvas"></canvas>
     </div>
 
-<script type="text/javascript">
+<script type="module">
+//Loading some libaries and tools (mostly from facemesh)
+import {
+  WebGLRenderer,
+  PCFSoftShadowMap,
+  sRGBEncoding,
+  Scene,
+  SpotLight,
+  PerspectiveCamera,
+  HemisphereLight,
+  AmbientLight,
+  IcosahedronGeometry,
+  OrthographicCamera,
+  DoubleSide,
+  Mesh,
+  TextureLoader,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  Texture,
+} from "../../third_party/three.module.js";
+import { FaceMeshFaceGeometry } from "../../js/face.js";
+import { OrbitControls } from "../../third_party/OrbitControls.js";
+
+
 //some dummy variables until I get everything integrated
 local_username="Hogs"
 local_texture="Rabbits"
