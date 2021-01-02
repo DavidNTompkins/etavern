@@ -283,7 +283,12 @@ async function render(model) {
     texture: local_texture,
     facemesh: local_facemesh
   });
-
+  connection.onmessage = function(event) {
+    var other_user = event.username;
+    var other_texture = event.texture;
+    var facemesh = event.facemesh;
+    console.log(facemesh)
+  };
 
   // below actually renders
   if (wireframe) {
