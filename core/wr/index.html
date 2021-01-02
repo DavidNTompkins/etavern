@@ -291,7 +291,7 @@ async function render(model) {
   };
 
   // below actually renders
-  if (wireframe) {
+  /*if (wireframe) {
     // Render the mask.
     renderer.render(scene, camera);
     // Prevent renderer from clearing the color buffer.
@@ -302,10 +302,10 @@ async function render(model) {
     renderer.render(scene, camera);
     mask.material = material;
     renderer.autoClear = true;
-  } else {
+  } else {*/
     // Render the scene normally.
     renderer.render(scene, camera);
-  }
+  //}
 
   requestAnimationFrame(() => render(model));
 }
