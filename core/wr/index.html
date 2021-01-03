@@ -325,8 +325,8 @@ async function render(model) {
 
 }
   // below actually renders
-  const scene = scenes[0]
-  const element = scene.userData.element;
+  //const scene = scenes[0]
+  const element = scenes[0].userData.element;
   const rect = element.getBoundingClientRect();
   // check if it's offscreen. If so skip it
   if ( rect.bottom < 0 || rect.top > renderer.domElement.clientHeight ||
@@ -341,12 +341,12 @@ async function render(model) {
 
   renderer.setViewport( left, bottom, divwidth, divheight );
   renderer.setScissor( left, bottom, divwidth, divheight );
-  const camera = scene.userData.camera;
+  const camera = scenes[0].userData.camera;
 
   //camera.aspect = width / height; // not changing in this example
   //camera.updateProjectionMatrix();
   //scene.userData.controls.update();
-  renderer.render(scene, camera);
+  renderer.render(scenes[0], camera);
 
   requestAnimationFrame(() => render(model));
 }
@@ -465,10 +465,10 @@ connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       console.log("message received")
       facemeshes[1].update(facemesh, flipCamera)
-      scene = scenes[1] // this needs to be either coming from the sent data or iterated
+      //scene = scenes[1] // this needs to be either coming from the sent data or iterated
       // get the element that is a place holder for where we want to
       // draw the scene
-      const element = scene.userData.element;
+      const element = scenes[1].userData.element;
 
       // get its position relative to the page's viewport
       const rect = element.getBoundingClientRect();
@@ -490,14 +490,14 @@ connection.onmessage = function(event) {
       renderer.setViewport( left, bottom, divwidth, divheight );
       renderer.setScissor( left, bottom, divwidth, divheight );
 
-      const camera = scene.userData.camera;
+      const camera = scenes[1].userData.camera;
 
       //camera.aspect = width / height; // not changing in this example
       //camera.updateProjectionMatrix();
 
       //scene.userData.controls.update();
 
-      renderer.render( scene, camera );
+      renderer.render( scenes[1], camera );
 
      // renderer.render(scenes[1], camera);
     };
