@@ -34,8 +34,8 @@
   <!-- buttons above from rtc, section below from facemesh -->
   <p id="status">Loading...</p>
     <div id="container">
-      <gum-av style="display:none"></gum-av>
       <canvas id="canvas"></canvas>
+      <gum-av style="display:none"></gum-av>
     </div>
 
 <script type="module">
@@ -66,6 +66,7 @@ import { OrbitControls } from "../../third_party/OrbitControls.js";
 let local_username="Hogs"
 let local_texture="Rabbits"
 let local_facemesh="Bananas"
+const scenes= [];
 
 // ----------------------------------------
 // Code for initializing data + sound only connection 
@@ -87,14 +88,11 @@ connection.sdpConstraints.mandatory = {
 // This code adds in the audio playback. Should work to make it hidden. 
 connection.onstream = function(event) {
     document.body.appendChild( event.mediaElement );
+    //Here's where we should begin appending face mesh divs. 
+    add_screen("temp","yep");
 };
 
 
-// ----------------------------------------
-// This section controls sending and receiving data
-// sending data - should be within facemodel (on each update)
-
-//receiving data - should include a call to render new faces (I think this will be better than rendering in waves)
 
 // ----------------------------------------
 // UI logic - needs to change to either generate tavern names or accept existing
@@ -123,15 +121,16 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;
 renderer.outputEncoding = sRGBEncoding;
 
-const scene = new Scene();
+//const scene = new Scene();
 const camera = new OrthographicCamera(1, 1, 1, 1, -1000, 1000);
 
 // Change to renderer.render(scene, debugCamera); for interactive view.
+/*
 const debugCamera = new PerspectiveCamera(75, 1, 0.1, 1000);
 debugCamera.position.set(300, 300, 300);
 debugCamera.lookAt(scene.position);
 const controls = new OrbitControls(debugCamera, renderer.domElement);
-
+*/
 let width = 0;
 let height = 0;
 
@@ -182,7 +181,7 @@ const material = new MeshStandardMaterial({
   opacity: 1,
 });
 
-// Create a new geometry helper.
+/*// Create a new geometry helper.
 const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
 
 // Create mask mesh.
@@ -215,7 +214,7 @@ const hemiLight = new HemisphereLight(0xffffbb, 0x080820, 0.25);
 //scene.add(hemiLight);
 
 const ambientLight = new AmbientLight(0x404040, 0.5);
-scene.add(ambientLight);
+scene.add(ambientLight); */
 
 // Defines if the source should be flipped horizontally.
 let flipCamera = true;
@@ -263,7 +262,7 @@ async function render(model) {
 
     // Update face mesh geometry with new data. 
     // ---- This one updates the same face
-    //faceGeometry.update(faces[0], flipCamera);
+    faceGeometry.update(faces[0], flipCamera);
 
     // Use the reference face texture coordinates for this face geometry.
     for (let j = 0; j < 468; j++) {
@@ -277,7 +276,7 @@ async function render(model) {
 
 }
   // below actually renders
-  renderer.render(scene, camera);
+  renderer.render(scenes[0], camera);
 
   requestAnimationFrame(() => render(model));
 }
@@ -321,6 +320,7 @@ async function init() {
   status.textContent = "Detecting face...";
   await render(model);
   status.textContent = "Drop an image into the page.";
+  add_screen("temp","yep");
 }
 
 // Handles dropping an image.
@@ -351,11 +351,59 @@ async function dropHandler(ev) {
     }
   }
 }
+// ----------------------------------------
+// This function handles creating facemesh holding divs. Should be called once at start and then again for each new participant.
+function add_screen(username, texture){
+  // a lot of this comes from the multiple elements THREE.js example.
+  //canvas = document.getElementById( "c" ); // already defined above. 
+  // this block creates the new window and adds a camera
+  const scene = new Scene(); 
+  const element = document.createElement( 'div' );
+  element.className = 'list-item';
+
+  const sceneElement = document.createElement( 'div' );
+  element.appendChild( sceneElement );
+
+  scene.userData.element = sceneElement;
+  content.appendChild( element );
+
+  const camera = new THREE.PerspectiveCamera( 50, 1, 1, 10 );
+  camera.position.z = 2;
+  scene.userData.camera = camera;
+
+  // this block creates the initial face mesh geometry
+  // a lot of this comes from the FaceMeshFaceGeometry face transfer example
+  const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
+  const mask = new Mesh(faceGeometry, material);
+  scene.add(mask);
+
+  // this block adds lighting and puts the scene into the scenes array for easy handling
+  // this should be swapped with the automated face matching texture code
+  const material = new THREE.MeshStandardMaterial( {
+    color: new THREE.Color().setHSL( Math.random(), 1, 0.75 ),
+    roughness: 0.5,
+    metalness: 0,
+    flatShading: true
+  } );
+
+  scene.add( new THREE.Mesh( geometry, material ) );
+
+  scene.add( new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ) );
+
+  const light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+  light.position.set( 1, 1, 1 );
+  scene.add( light );
+
+  scenes.push( scene );
+   
+}
+
 
 connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       console.log(facemesh)
       faceGeometry.update(facemesh, flipCamera)
+      renderer.render(scenes[1], camera);
     };
 
 function dragOverHandler(ev) {
