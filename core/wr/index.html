@@ -5,7 +5,7 @@
   <meta charset="utf-8">
 
   <title>eTavern</title>
-  <meta name="description" content="the seediest watering hole on the web">
+  <meta name="description" content="Ahoy there">
   <meta name="author" content="David Tompkins">
 
   
@@ -20,12 +20,53 @@
   <script src="../../third_party/gum-av.js" type="module"></script>
   <!-- <script src="main.js" type="module"></script> -->
   <style>
-  .list-item {
-        display: inline-block;
-        margin: 1em;
-        padding: 1em;
-        box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.25);
-      }
+    * {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+    }
+
+    body {
+      background-color: #fff;
+      color: #444;
+    }
+
+    a {
+      color: #08f;
+    }
+
+    #container {
+      position: absolute;
+      top: 0; width: 100%;
+      z-index: 1;
+      padding: 3em 0 0 0;
+    }
+
+    #canvas {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .list-item {
+      display: inline-block;
+      margin: 1em;
+      padding: 1em;
+      box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.25);
+    }
+
+    .list-item > div:nth-child(1) {
+      width: 200px;
+      height: 200px;
+    }
+
+    .list-item > div:nth-child(2) {
+      color: #888;
+      font-family: sans-serif;
+      font-size: large;
+      width: 200px;
+      margin-top: 0.5em;
+    }
   </style>
   
 </head>
@@ -262,7 +303,8 @@ async function render(model) {
       texture: local_texture,
       facemesh: faces[0]
     });
-    console.log(faces[0])
+    console.log("message sent")
+    
     
 
     // Update face mesh geometry with new data. 
@@ -419,7 +461,7 @@ function add_screen(username, texture){
 
 connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
-      console.log(facemesh)
+      console.log("message received")
       facemeshes[1].update(facemesh, flipCamera)
       scene = scenes[1] // this needs to be either coming from the sent data or iterated
       // get the element that is a place holder for where we want to
