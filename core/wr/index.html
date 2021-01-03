@@ -93,19 +93,9 @@ connection.onstream = function(event) {
 // ----------------------------------------
 // This section controls sending and receiving data
 // sending data - should be within facemodel (on each update)
-connection.send({
-    username: local_username,
-    texture: local_texture,
-    facemesh: local_facemesh
-});
 
 //receiving data - should include a call to render new faces (I think this will be better than rendering in waves)
-connection.onmessage = function(event) {
-    var other_user = event.data.username;
-    var other_texture = event.data.texture;
-    var facemesh = event.data.facemesh;
-    console.log(facemesh)
-};
+
 // ----------------------------------------
 // UI logic - needs to change to either generate tavern names or accept existing
 var predefinedRoomId = 'etavern';
@@ -363,8 +353,8 @@ async function dropHandler(ev) {
 }
 
 connection.onmessage = function(event) {
-      console.log("message received")
-      facemesh = event.facemesh;
+      facemesh = event.data.facemesh;
+      console.log(facemesh)
       faceGeometry.update(facemesh, flipCamera)
     };
 
