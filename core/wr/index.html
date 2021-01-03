@@ -262,6 +262,16 @@ async function render(model) {
 
   // There's at least one face.
   if (faces.length > 0) {
+      // here's where I'm going to try to send data: 
+    connection.send({
+      username: local_username,
+      texture: local_texture,
+      facemesh: faces[0]
+    });
+    connection.onmessage = function(event) {
+      var facemesh = event.facemesh;
+      faceGeometry.update(facemesh, flipCamera)
+    };
 
     // Update face mesh geometry with new data. 
     // ---- This one updates the same face
@@ -275,18 +285,9 @@ async function render(model) {
       faceGeometry.uvs[j * 2 + 1] = 1 - y;
     }
     faceGeometry.getAttribute("uv").needsUpdate = true;
-  }
-  // here's where I'm going to try to send data: 
-  connection.send({
-    username: local_username,
-    texture: local_texture,
-    facemesh: faces[0]
-  });
-  connection.onmessage = function(event) {
-    var facemesh = event.facemesh;
-    faceGeometry.update(facemesh, flipCamera)
-  };
+  
 
+}
   // below actually renders
   renderer.render(scene, camera);
 
