@@ -289,13 +289,13 @@ async function render(model) {
     return; // it's off screen
   }
   // set the viewport
-  const width = rect.right - rect.left;
-  const height = rect.bottom - rect.top;
+  const divwidth = rect.right - rect.left;
+  const divheight = rect.bottom - rect.top;
   const left = rect.left;
   const bottom = renderer.domElement.clientHeight - rect.bottom;
 
-  renderer.setViewport( left, bottom, width, height );
-  renderer.setScissor( left, bottom, width, height );
+  renderer.setViewport( left, bottom, divwidth, divheight );
+  renderer.setScissor( left, bottom, divwidth, divheight );
   const camera = scene.userData.camera;
 
   //camera.aspect = width / height; // not changing in this example
@@ -437,13 +437,13 @@ connection.onmessage = function(event) {
       }
 
       // set the viewport
-      const width = rect.right - rect.left;
-      const height = rect.bottom - rect.top;
+      const divwidth = rect.right - rect.left;
+      const divheight = rect.bottom - rect.top;
       const left = rect.left;
       const bottom = renderer.domElement.clientHeight - rect.bottom;
 
-      renderer.setViewport( left, bottom, width, height );
-      renderer.setScissor( left, bottom, width, height );
+      renderer.setViewport( left, bottom, divwidth, divheight );
+      renderer.setScissor( left, bottom, divwidth, divheight );
 
       const camera = scene.userData.camera;
 
