@@ -227,9 +227,6 @@ const hemiLight = new HemisphereLight(0xffffbb, 0x080820, 0.25);
 const ambientLight = new AmbientLight(0x404040, 0.5);
 scene.add(ambientLight);
 
-// Enable wireframe to debug the mesh on top of the material.
-let wireframe = false;
-
 // Defines if the source should be flipped horizontally.
 let flipCamera = true;
 
@@ -265,9 +262,11 @@ async function render(model) {
 
   // There's at least one face.
   if (faces.length > 0) {
-    // Update face mesh geometry with new data.
-    faceGeometry.update(faces[0], flipCamera);
-    console.log("here")
+
+    // Update face mesh geometry with new data. 
+    // ---- This one updates the same face
+    //faceGeometry.update(faces[0], flipCamera);
+
     // Use the reference face texture coordinates for this face geometry.
     for (let j = 0; j < 468; j++) {
       let x = referenceFace.face.scaledMesh[j][0];
@@ -281,31 +280,15 @@ async function render(model) {
   connection.send({
     username: local_username,
     texture: local_texture,
-    facemesh: local_facemesh
+    facemesh: faces[0]
   });
   connection.onmessage = function(event) {
-    var other_user = event.username;
-    var other_texture = event.texture;
     var facemesh = event.facemesh;
-    console.log(facemesh)
+    faceGeometry.update(facemesh, flipCamera)
   };
 
   // below actually renders
-  /*if (wireframe) {
-    // Render the mask.
-    renderer.render(scene, camera);
-    // Prevent renderer from clearing the color buffer.
-    renderer.autoClear = false;
-    renderer.clear(false, true, false);
-    mask.material = wireframeMaterial;
-    // Render again with the wireframe material.
-    renderer.render(scene, camera);
-    mask.material = material;
-    renderer.autoClear = true;
-  } else {*/
-    // Render the scene normally.
-    renderer.render(scene, camera);
-  //}
+  renderer.render(scene, camera);
 
   requestAnimationFrame(() => render(model));
 }
