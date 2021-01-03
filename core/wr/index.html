@@ -269,7 +269,7 @@ async function render(model) {
       facemesh: faces[0]
     });
     connection.onmessage = function(event) {
-      var facemesh = event.facemesh;
+      facemesh = event.facemesh;
       faceGeometry.update(facemesh, flipCamera)
     };
 
