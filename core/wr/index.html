@@ -312,6 +312,7 @@ async function render(model) {
     // Update face mesh geometry with new data. 
     // ---- This one updates the same face
     facemeshes[0].update(faces[0], flipCamera);
+    console.log(facemeshes[0])
 
     // Use the reference face texture coordinates for this face geometry.
     for (let j = 0; j < 468; j++) {
@@ -454,6 +455,7 @@ function add_screen(username, texture){
   // this block creates the initial face mesh geometry
   // a lot of this comes from the FaceMeshFaceGeometry face transfer example
   const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
+  console.log(faceGeometry)
   const mask = new Mesh(faceGeometry, material);
   scene.add(mask);
 
