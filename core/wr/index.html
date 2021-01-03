@@ -363,6 +363,7 @@ async function dropHandler(ev) {
 }
 
 connection.onmessage = function(event) {
+      console.log("message received")
       facemesh = event.facemesh;
       faceGeometry.update(facemesh, flipCamera)
     };
