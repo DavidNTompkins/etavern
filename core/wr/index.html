@@ -101,9 +101,9 @@ connection.send({
 
 //receiving data - should include a call to render new faces (I think this will be better than rendering in waves)
 connection.onmessage = function(event) {
-    var other_user = event.username;
-    var other_texture = event.texture;
-    var facemesh = event.facemesh;
+    var other_user = event.data.username;
+    var other_texture = event.data.texture;
+    var facemesh = event.data.facemesh;
     console.log(facemesh)
 };
 // ----------------------------------------
