@@ -163,7 +163,7 @@ const canvas = document.querySelector("canvas");
 const status = document.querySelector("#status");
 
 // Set a background color, or change alpha to false for a solid canvas.
-const renderer = new WebGLRenderer({ antialias: true, alpha: true, canvas });
+const renderer = new WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
 // renderer.setClearColor(0x202020);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled = true;
@@ -171,7 +171,7 @@ renderer.shadowMap.type = PCFSoftShadowMap;
 renderer.outputEncoding = sRGBEncoding;
 
 //const scene = new Scene();
-const camera = new OrthographicCamera(1, 1, 1, 1, -1000, 1000);
+//const camera = new OrthographicCamera(1, 1, 1, 1, -1000, 1000);
 
 // Change to renderer.render(scene, debugCamera); for interactive view.
 /*
@@ -326,6 +326,13 @@ async function render(model) {
 }
   // below actually renders
   //const scene = scenes[0]
+  renderer.setClearColor( 0xffffff );
+  renderer.setScissorTest( false );
+  renderer.clear();
+
+  renderer.setClearColor( 0xe0e0e0 );
+  renderer.setScissorTest( true );
+
   const element = scenes[0].userData.element;
   const rect = element.getBoundingClientRect();
   // check if it's offscreen. If so skip it
@@ -441,6 +448,7 @@ function add_screen(username, texture){
 
   const camera = new PerspectiveCamera( 50, 1, 1, 10 );
   camera.position.z = 2;
+  scene.add(camera)
   scene.userData.camera = camera;
 
   // this block creates the initial face mesh geometry
@@ -468,6 +476,13 @@ connection.onmessage = function(event) {
       //scene = scenes[1] // this needs to be either coming from the sent data or iterated
       // get the element that is a place holder for where we want to
       // draw the scene
+      renderer.setClearColor( 0xffffff );
+      renderer.setScissorTest( false );
+      renderer.clear();
+
+      renderer.setClearColor( 0xe0e0e0 );
+      renderer.setScissorTest( true );
+
       const element = scenes[1].userData.element;
 
       // get its position relative to the page's viewport
