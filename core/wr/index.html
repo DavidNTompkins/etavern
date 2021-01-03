@@ -318,9 +318,10 @@ async function init() {
   }
   material.map = referenceFace.texture;
   status.textContent = "Detecting face...";
+  add_screen("temp","yep");
   await render(model);
   status.textContent = "Drop an image into the page.";
-  add_screen("temp","yep");
+
 }
 
 // Handles dropping an image.
