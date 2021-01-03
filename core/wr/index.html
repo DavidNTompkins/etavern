@@ -356,7 +356,8 @@ async function dropHandler(ev) {
 // This function handles creating facemesh holding divs. Should be called once at start and then again for each new participant.
 function add_screen(username, texture){
   // a lot of this comes from the multiple elements THREE.js example.
-  //canvas = document.getElementById( "c" ); // already defined above. 
+  //canvas = document.getElementById( "c" ); // already defined above.
+  const content = document.getElementById( 'container' ); 
   // this block creates the new window and adds a camera
   const scene = new Scene(); 
   const element = document.createElement( 'div' );
