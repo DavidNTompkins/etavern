@@ -281,7 +281,7 @@ async function render(model) {
 
 }
   // below actually renders
-  scene= scenes[0]
+  const scene = scenes[0]
   const element = scene.userData.element;
   const rect = element.getBoundingClientRect();
   // check if it's offscreen. If so skip it
