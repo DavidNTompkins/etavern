@@ -369,7 +369,7 @@ function add_screen(username, texture){
   scene.userData.element = sceneElement;
   content.appendChild( element );
 
-  const camera = new THREE.PerspectiveCamera( 50, 1, 1, 10 );
+  const camera = new PerspectiveCamera( 50, 1, 1, 10 );
   camera.position.z = 2;
   scene.userData.camera = camera;
 
@@ -381,21 +381,8 @@ function add_screen(username, texture){
 
   // this block adds lighting and puts the scene into the scenes array for easy handling
   // this should be swapped with the automated face matching texture code
-  const material = new THREE.MeshStandardMaterial( {
-    color: new THREE.Color().setHSL( Math.random(), 1, 0.75 ),
-    roughness: 0.5,
-    metalness: 0,
-    flatShading: true
-  } );
 
-  scene.add( new THREE.Mesh( geometry, material ) );
-
-  scene.add( new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ) );
-
-  const light = new THREE.DirectionalLight( 0xffffff, 0.5 );
-  light.position.set( 1, 1, 1 );
-  scene.add( light );
-
+  scene.add( new HemisphereLight( 0xaaaaaa, 0x444444 ) );
   scenes.push( scene );
    
 }
