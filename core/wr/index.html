@@ -71,7 +71,6 @@ import { OrbitControls } from "../../third_party/OrbitControls.js";
 let local_username="Hogs"
 let local_texture="Rabbits"
 let local_facemesh="Bananas"
-const scenes= [];
 const facemeshes =[];
 
 // ----------------------------------------
@@ -127,7 +126,7 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;
 renderer.outputEncoding = sRGBEncoding;
 
-//const scene = new Scene();
+const scene = new Scene();
 const camera = new OrthographicCamera(1, 1, 1, 1, -1000, 1000);
 
 // Change to renderer.render(scene, debugCamera); for interactive view.
@@ -281,7 +280,7 @@ async function render(model) {
 
 }
   // below actually renders
-  renderer.render(scenes[0], camera);
+  renderer.render(scene, camera);
   console.log("allegedly rendered own face")
 
   requestAnimationFrame(() => render(model));
@@ -359,25 +358,10 @@ async function dropHandler(ev) {
   }
 }
 // ----------------------------------------
-// This function handles creating facemesh holding divs. Should be called once at start and then again for each new participant.
+// This function handles creating new facemeshes. Name is legacy, should probably be updated to represent truth (adds meshes not screens)
 function add_screen(username, texture){
   // a lot of this comes from the multiple elements THREE.js example.
   //canvas = document.getElementById( "c" ); // already defined above.
-  const content = document.getElementById( 'container' ); 
-  // this block creates the new window and adds a camera
-  const scene = new Scene(); 
-  const element = document.createElement( 'div' );
-  element.className = 'list-item';
-
-  const sceneElement = document.createElement( 'div' );
-  element.appendChild( sceneElement );
-
-  scene.userData.element = sceneElement;
-  content.appendChild( element );
-
-  const camera = new PerspectiveCamera( 50, 1, 1, 10 );
-  camera.position.z = 2;
-  scene.userData.camera = camera;
 
   // this block creates the initial face mesh geometry
   // a lot of this comes from the FaceMeshFaceGeometry face transfer example
@@ -388,8 +372,7 @@ function add_screen(username, texture){
   // this block adds lighting and puts the scene into the scenes array for easy handling
   // this should be swapped with the automated face matching texture code
 
-  scene.add( new HemisphereLight( 0xaaaaaa, 0x444444 ) );
-  scenes.push( scene );
+  faceGeometry.translateX(200*facemeshes.length)
   facemeshes.push(faceGeometry);
    
 }
@@ -399,7 +382,7 @@ connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
-      renderer.render(scenes[1], camera);
+      renderer.render(scenes, camera);
     };
 
 function dragOverHandler(ev) {
