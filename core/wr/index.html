@@ -375,7 +375,7 @@ function add_screen(username, texture){
   // this block adds lighting and puts the scene into the scenes array for easy handling
   // this should be swapped with the automated face matching texture code
 
-  faceGeometry.translate(x: 200*facemeshes.length,y:0,z:0)
+  faceGeometry.translate({x: 200*facemeshes.length,y:0,z:0});
   facemeshes.push(faceGeometry);
    
 }
