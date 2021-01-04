@@ -195,7 +195,9 @@ const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
 // Create mask mesh.
 const mask = new Mesh(faceGeometry, material);
 scene.add(mask);
+
 mask.receiveShadow = mask.castShadow = true;
+*/
 //mask.position.set(200,200,200); //weirdly does not keep graphics - may need to shift texture as well
 
 // Add lights.
@@ -222,7 +224,7 @@ const hemiLight = new HemisphereLight(0xffffbb, 0x080820, 0.25);
 //scene.add(hemiLight);
 
 const ambientLight = new AmbientLight(0x404040, 0.5);
-scene.add(ambientLight); */
+scene.add(ambientLight); 
 
 // Defines if the source should be flipped horizontally.
 let flipCamera = true;
@@ -383,9 +385,9 @@ function add_screen(username, texture){
 
 connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
-      console.log(facemesh)
+      //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
-      //facemeshes[1].translate({x: 200,y:0,z:0});
+      facemeshes[1].translate(20,0,0);
       renderer.render(scene, camera);
     };
 
