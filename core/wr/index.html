@@ -262,7 +262,7 @@ async function render(model) {
       texture: local_texture,
       facemesh: faces[0]
     });
-    console.log(faces[0])
+    //console.log(faces[0])
     
 
     // Update face mesh geometry with new data. 
@@ -282,6 +282,7 @@ async function render(model) {
 }
   // below actually renders
   renderer.render(scenes[0], camera);
+  console.log("allegedly rendered own face")
 
   requestAnimationFrame(() => render(model));
 }
@@ -396,7 +397,7 @@ function add_screen(username, texture){
 
 connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
-      console.log(facemesh)
+      //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
       renderer.render(scenes[1], camera);
     };
