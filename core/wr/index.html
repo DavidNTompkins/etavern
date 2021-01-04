@@ -385,7 +385,7 @@ connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
-      renderer.render(scenes, camera);
+      renderer.render(scene, camera);
     };
 
 function dragOverHandler(ev) {
