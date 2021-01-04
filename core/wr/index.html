@@ -373,12 +373,12 @@ function add_screen(username, texture){
   const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
   const mask = new Mesh(new_faceGeometry, material);
   scene.add(mask);
-  new_faceGeometry.setSize(300,300);
+  mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
+  
+  //new_faceGeometry.setSize(300,300);
 
-  // this block adds lighting and puts the scene into the scenes array for easy handling
-  // this should be swapped with the automated face matching texture code
 
-  //faceGeometry.translate({x: 200*facemeshes.length,y:0,z:0});
+
   facemeshes.push(new_faceGeometry);
    
 }
