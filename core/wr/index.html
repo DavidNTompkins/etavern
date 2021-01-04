@@ -373,6 +373,7 @@ function add_screen(username, texture){
   const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
   const mask = new Mesh(new_faceGeometry, material);
   scene.add(mask);
+  new_faceGeometry.setSize(300,300);
 
   // this block adds lighting and puts the scene into the scenes array for easy handling
   // this should be swapped with the automated face matching texture code
@@ -387,7 +388,7 @@ connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
-      facemeshes[1].translate(20,0,0);
+      //facemeshes[1].translate(20,0,0); - this needs to happen to the face object itself or we need to add in logic to handle translation
       renderer.render(scene, camera);
     };
 
