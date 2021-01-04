@@ -235,7 +235,7 @@ async function render(model) {
   await av.ready();
   // Flip video element horizontally if necessary.
   av.video.style.transform = flipCamera ? "scaleX(-1)" : "scaleX(1)";
-  av.video.style.display = "none"
+  av.video.style.display = "none";
 
   // Resize orthographic camera to video dimensions if necessary.
   if (width !== av.video.videoWidth || height !== av.video.videoHeight) {
@@ -264,7 +264,7 @@ async function render(model) {
       texture: local_texture,
       facemesh: faces[0]
     });
-    //console.log(faces[0])
+    console.log(faces[0])
     
 
     // Update face mesh geometry with new data. 
@@ -368,15 +368,15 @@ function add_screen(username, texture){
 
   // this block creates the initial face mesh geometry
   // a lot of this comes from the FaceMeshFaceGeometry face transfer example
-  const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
-  const mask = new Mesh(faceGeometry, material);
+  const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
+  const mask = new Mesh(new_faceGeometry, material);
   scene.add(mask);
 
   // this block adds lighting and puts the scene into the scenes array for easy handling
   // this should be swapped with the automated face matching texture code
 
   //faceGeometry.translate({x: 200*facemeshes.length,y:0,z:0});
-  facemeshes.push(faceGeometry);
+  facemeshes.push(new_faceGeometry);
    
 }
 
@@ -385,7 +385,7 @@ connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
-      facemeshes[1].translate({x: 200,y:0,z:0});
+      //facemeshes[1].translate({x: 200,y:0,z:0});
       renderer.render(scene, camera);
     };
 
