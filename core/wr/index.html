@@ -390,7 +390,7 @@ connection.onmessage = function(event) {
       //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
       //facemeshes[1].translate(20,0,0); - this needs to happen to the face object itself or we need to add in logic to handle translation
-      renderer.render(scene, camera);
+      //renderer.render(scene, camera); // commenting this out as we dont need the extra render
     };
 
 function dragOverHandler(ev) {
