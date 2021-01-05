@@ -20,21 +20,55 @@
   <script src="../../third_party/gum-av.js" type="module"></script>
   <!-- <script src="main.js" type="module"></script> -->
   <style>
-  .list-item {
-        display: inline-block;
-        margin: 1em;
-        padding: 1em;
-        box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.25);
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-  .canvas {
-    width: 100%;
-    height: 100%;
-  }
-  .container {
-    width: 100%;
-    height: 100%;
-  }
-  </style>
+
+      gum-av,
+      canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      canvas {
+        margin: auto;
+      }
+
+      #container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: blue;
+      }
+
+      #status {
+        position: absolute;
+        left: 0;
+        top: 0;
+        pointer-events: none;
+        color: white;
+        padding: 1em;
+        font-family: roboto, sans-serif;
+        z-index: 1;
+        background: red;
+      }
+
+      gum-av {
+        font-family: roboto, sans-serif;
+        color: white;
+        opacity: 0;
+        transition: opacity 1s ease-out;
+      }
+    </style>
   
 </head>
 
@@ -161,7 +195,7 @@ function resize() {
     adjustedWidth = windowHeight * videoAspectRatio;
     adjustedHeight = windowHeight;
   }
-  renderer.setSize(windowWidth, windowHeight);//adjustedWidth, adjustedHeight); 
+  renderer.setSize(adjustedWidth, adjustedHeight); 
   //debugCamera.aspect = videoAspectRatio;
   //debugCamera.updateProjectionMatrix();
 }
