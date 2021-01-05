@@ -296,7 +296,6 @@ async function render(model) {
     height = h;
     //resize();
     facemeshes[0].setSize(0.75*w, h); // DT - This should recenter the face to the camera
-    facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
   } 
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
@@ -317,6 +316,7 @@ async function render(model) {
     // Update face mesh geometry with new data. 
     // ---- This one updates the same face
     facemeshes[0].update(faces[0], flipCamera);
+    facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
 
     // Use the reference face texture coordinates for this face geometry.
     for (let j = 0; j < 468; j++) {
