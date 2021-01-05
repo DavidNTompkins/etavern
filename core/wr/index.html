@@ -182,8 +182,7 @@ debugCamera.position.set(300, 300, 300);
 debugCamera.lookAt(scene.position);
 const controls = new OrbitControls(debugCamera, renderer.domElement);
 */
-let width = av.video.videoWidth;
-let height = av.video.videoHeight;;
+
 
 function resize() {
   const videoAspectRatio = width / height;
@@ -209,6 +208,10 @@ window.addEventListener("resize", () => {
 }); 
 
 resize();
+
+let width = av.video.videoWidth;
+let height = av.video.videoHeight;
+
 //renderer.render(scenes[0], camera);
 
 // Create a loader.
