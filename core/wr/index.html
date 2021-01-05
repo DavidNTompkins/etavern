@@ -295,7 +295,7 @@ async function render(model) {
     width = w;
     height = h;
     //resize();
-    facemeshes[0].setSize(w, h); // DT - This should recenter the face to the camera
+    facemeshes[0].setSize(0.75*w, h); // DT - This should recenter the face to the camera
   } 
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
@@ -425,7 +425,7 @@ function add_screen(username, texture){
   }else{
     console.log("loading my own face")
     new_faceGeometry.setSize(canvas.width,canvas.height);
-    new_faceGeometry.scale(0.5,0.5,0.5);
+    //new_faceGeometry.scale(0.5,0.5,0.5);
     //new_faceGeometry.applyMatrix4(new Matrix4().makeScale(0.5, 0.5, 0.5));
   };
 
@@ -440,8 +440,9 @@ connection.onmessage = function(event) {
       //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
       const w = av.video.videoWidth;
-      const h = av.video.videoHeight
-      facemeshes[1].setSize(w,h)
+      const h = av.video.videoHeight;
+      facemeshes[1].setSize(1.25*w,h);
+      facemeshes[1].setSize(0.5,0.5,0.5);
       //renderer.render(scene, camera); // commenting this out as we dont need the extra render
     };
 
