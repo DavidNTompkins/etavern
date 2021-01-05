@@ -295,7 +295,7 @@ async function render(model) {
     width = w;
     height = h;
     //resize();
-    //facemeshes[0].setSize(w, h); // DT - this appears to be the trick to getting the camera to fit the zoom windows.
+    facemeshes[0].setSize(w, h); // DT - This should recenter the face to the camera
   } 
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
@@ -439,6 +439,9 @@ connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
+      const w = av.video.videoWidth;
+      const h = av.video.videoHeight
+      facemeshes[1].setSize(w,h)
       //renderer.render(scene, camera); // commenting this out as we dont need the extra render
     };
 
