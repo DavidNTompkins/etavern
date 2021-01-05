@@ -47,7 +47,7 @@
   <!-- buttons above from rtc, section below from facemesh -->
   <p id="status">Loading...</p>
     <div id="container">
-      <canvas id="canvas"></canvas>
+      <canvas id="canvas" width="100%" height="100%"></canvas>
       <gum-av style="display:none"></gum-av>
     </div>
 
@@ -382,8 +382,10 @@ function add_screen(username, texture){
   scene.add(mask);
 
   if (facemeshes.length>0) {
+    console.log("loading otherperson face")
     new_faceGeometry.setSize(300,300);
   }else{
+    console.log("loading my own face")
     new_faceGeometry.setSize(100,100);
   };
 
