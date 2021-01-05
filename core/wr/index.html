@@ -296,6 +296,7 @@ async function render(model) {
     height = h;
     //resize();
     facemeshes[0].setSize(0.75*w, h); // DT - This should recenter the face to the camera
+    facemeshes[1].scale(0.5,0.5,0.5);
   } 
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
