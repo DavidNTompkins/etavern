@@ -107,6 +107,7 @@ import {
   MeshBasicMaterial,
   MeshStandardMaterial,
   Texture,
+  Matrix4,
 } from "../../third_party/three.module.js";
 import { FaceMeshFaceGeometry } from "../../js/face.js";
 import { OrbitControls } from "../../third_party/OrbitControls.js";
@@ -423,7 +424,8 @@ function add_screen(username, texture){
     new_faceGeometry.setSize(300,300);
   }else{
     console.log("loading my own face")
-    new_faceGeometry.setSize(0,0);
+    new_faceGeometry.applyMatrix4(new Matrix4().makeScale(0.5, 0.5, 0.5));
+    //new_faceGeometry.setSize(0,0);
   };
 
 
