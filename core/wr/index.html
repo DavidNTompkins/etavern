@@ -182,8 +182,8 @@ debugCamera.position.set(300, 300, 300);
 debugCamera.lookAt(scene.position);
 const controls = new OrbitControls(debugCamera, renderer.domElement);
 */
-
-
+let width =0;
+let height = 0;
 function resize() {
   const videoAspectRatio = width / height;
   const windowWidth = window.innerWidth;
@@ -208,9 +208,6 @@ window.addEventListener("resize", () => {
 }); 
 
 resize();
-
-let width = av.video.videoWidth;
-let height = av.video.videoHeight;
 
 //renderer.render(scenes[0], camera);
 
@@ -427,7 +424,7 @@ function add_screen(username, texture){
     new_faceGeometry.setSize(300,300);
   }else{
     console.log("loading my own face")
-    new_faceGeometry.setSize(300,300);
+    new_faceGeometry.setSize(canvas.width,canvas.height);
     new_faceGeometry.scale(0.5,0.5,0.5);
     //new_faceGeometry.applyMatrix4(new Matrix4().makeScale(0.5, 0.5, 0.5));
   };
