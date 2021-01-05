@@ -138,11 +138,20 @@ connection.sdpConstraints.mandatory = {
 };
 // This code adds in the audio playback. Should work to make it hidden. 
 connection.onstream = function(event) {
-    add_screen("temp","yep");
+    //removed add screen from here
     document.body.appendChild( event.mediaElement );
     //Here's where we should begin appending face mesh divs. 
 };
+connection.onNewParticipant = function(participantId, userPreferences) {
+    // if OfferToReceiveAudio/OfferToReceiveVideo should be enabled for specific users
+   // userPreferences.localPeerSdpConstraints.OfferToReceiveAudio = true;
+    //userPreferences.localPeerSdpConstraints.OfferToReceiveVideo = false;
+    add_screen("temp","yep"); // added here from onstream.
 
+    // below line must be included. Above all lines are optional.
+    // if below line is NOT included; "join-request" will be considered rejected.
+    connection.acceptParticipationRequest(participantId, userPreferences);
+};
 
 
 // ----------------------------------------
