@@ -360,7 +360,7 @@ async function init() {
   status.textContent = "Loading model...";
   let texture, model;
   [texture, model, modelRef] = await Promise.all([
-    loader.loadAsync("../../assets/ao.jpg"),
+    loader.loadAsync("../../assets/dnt32.jpg"),
     facemesh.load({ maxFaces: 1 }),
     facemesh.load({ maxFaces: 1 }),
   ]);
@@ -425,7 +425,7 @@ function add_screen(username, texture){
   }else{
     console.log("loading my own face")
     new_faceGeometry.setSize(300,300);
-    mask.buffergeometry.scale(2,2,2);
+    new_faceGeometry.buffergeometry.scale(2,2,2);
     //new_faceGeometry.applyMatrix4(new Matrix4().makeScale(0.5, 0.5, 0.5));
   };
 
