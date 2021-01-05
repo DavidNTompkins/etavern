@@ -22,7 +22,7 @@ class FaceMeshFaceGeometry extends BufferGeometry {
     this.setUvs();
     this.setIndex(indices);
     this.computeVertexNormals();
-    this.applyMatrix4(new Matrix4().makeScale(2, 2, 2)); //DT - I changed the scale from 10 10 10 to 2 2 2
+    this.applyMatrix4(new Matrix4().makeScale(10, 10, 10)); 
     this.p0 = new Vector3();
     this.p1 = new Vector3();
     this.p2 = new Vector3();
