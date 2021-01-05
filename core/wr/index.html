@@ -47,7 +47,7 @@
   <!-- buttons above from rtc, section below from facemesh -->
   <p id="status">Loading...</p>
     <div id="container">
-      <canvas id="canvas" width="100%" height="100%"></canvas>
+      <canvas id="canvas"></canvas>
       <gum-av style="display:none"></gum-av>
     </div>
 
@@ -161,16 +161,16 @@ function resize() {
     adjustedWidth = windowHeight * videoAspectRatio;
     adjustedHeight = windowHeight;
   }
-  renderer.setSize(adjustedWidth, adjustedHeight); 
+  renderer.setSize(windowWidth, windowHeight);//adjustedWidth, adjustedHeight); 
   //debugCamera.aspect = videoAspectRatio;
   //debugCamera.updateProjectionMatrix();
 }
 
-/*window.addEventListener("resize", () => {
+window.addEventListener("resize", () => {
   resize();
-}); */
+}); 
 
-//resize();
+resize();
 //renderer.render(scenes[0], camera);
 
 // Create a loader.
