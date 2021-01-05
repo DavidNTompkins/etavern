@@ -381,9 +381,11 @@ function add_screen(username, texture){
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   scene.add(mask);
 
-  
-  new_faceGeometry.setSize(300,300);
-
+  if (facemeshes.length>0) {
+    new_faceGeometry.setSize(300,300);
+  }else{
+    new_faceGeometry.setSize(100,100);
+  };
 
 
   facemeshes.push(new_faceGeometry);
