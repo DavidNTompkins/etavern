@@ -5,7 +5,7 @@
   <meta charset="utf-8">
 
   <title>eTavern</title>
-  <meta name="description" content="the seediest watering hole on the web">
+  <meta name="description" content="Videoless Video chat">
   <meta name="author" content="David Tompkins">
 
   
@@ -138,9 +138,9 @@ connection.sdpConstraints.mandatory = {
 };
 // This code adds in the audio playback. Should work to make it hidden. 
 connection.onstream = function(event) {
+    add_screen("temp","yep");
     document.body.appendChild( event.mediaElement );
     //Here's where we should begin appending face mesh divs. 
-    add_screen("temp","yep");
 };
 
 
@@ -319,14 +319,17 @@ async function render(model) {
     facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
 
     // Use the reference face texture coordinates for this face geometry.
-    for (let j = 0; j < 468; j++) {
-      let x = referenceFace.face.scaledMesh[j][0];
-      let y = referenceFace.face.scaledMesh[j][1];
-      facemeshes[0].uvs[j * 2] = x;
-      facemeshes[0].uvs[j * 2 + 1] = 1 - y;
-    }
-    facemeshes[0].getAttribute("uv").needsUpdate = true;
-  
+    for (let k = 0; k <facemeshes.length+1; i++) {
+    
+    
+      for (let j = 0; j < 468; j++) {
+        let x = referenceFace.face.scaledMesh[j][0];
+        let y = referenceFace.face.scaledMesh[j][1];
+        facemeshes[k].uvs[j * 2] = x;
+        facemeshes[k].uvs[j * 2 + 1] = 1 - y;
+      }
+      facemeshes[k].getAttribute("uv").needsUpdate = true;
+    };
 
 }
   // below actually renders
