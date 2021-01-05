@@ -27,7 +27,8 @@
         box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.25);
       }
   .canvas {
-    width=1000;
+    width: 100%;
+    height: 100%;
   }
   </style>
   
@@ -161,10 +162,11 @@ function resize() {
   //debugCamera.updateProjectionMatrix();
 }
 
-window.addEventListener("resize", () => {
+/*window.addEventListener("resize", () => {
   resize();
-});
-resize();
+}); */
+
+//resize();
 //renderer.render(scenes[0], camera);
 
 // Create a loader.
@@ -250,8 +252,8 @@ async function render(model) {
     camera.updateProjectionMatrix();
     width = w;
     height = h;
-    resize();
-    facemeshes[0].setSize(w, h); // DT - this appears to be the trick to getting the camera to fit the zoom windows.
+    //resize();
+    //facemeshes[0].setSize(w, h); // DT - this appears to be the trick to getting the camera to fit the zoom windows.
   } 
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
@@ -376,7 +378,7 @@ function add_screen(username, texture){
   scene.add(mask);
 
   
-  new_faceGeometry.setSize(30,30);
+  new_faceGeometry.setSize(300,300);
 
 
 
@@ -389,7 +391,6 @@ connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       //console.log(facemesh)
       facemeshes[1].update(facemesh, flipCamera)
-      //facemeshes[1].translate(20,0,0); - this needs to happen to the face object itself or we need to add in logic to handle translation
       //renderer.render(scene, camera); // commenting this out as we dont need the extra render
     };
 
