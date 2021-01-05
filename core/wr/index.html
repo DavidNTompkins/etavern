@@ -319,9 +319,7 @@ async function render(model) {
     facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
 
     // Use the reference face texture coordinates for this face geometry.
-    for (let k = 0; k <facemeshes.length+1; i++) {
-    
-    
+    for (let k = 0; k <facemeshes.length+1; k++) {    
       for (let j = 0; j < 468; j++) {
         let x = referenceFace.face.scaledMesh[j][0];
         let y = referenceFace.face.scaledMesh[j][1];
