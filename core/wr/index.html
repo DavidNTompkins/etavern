@@ -397,8 +397,7 @@ async function init() {
     facemesh.load({ maxFaces: 1 }),
   ]);
   try {
-    let tempface_var = await getFace(modelRef, texture);
-    referenceFaces.set("myself",tempface_var);
+    referenceFaces.set("myself",await getFace(modelRef, texture));
   } catch (e) {
     console.error(e);
     return;
@@ -486,7 +485,7 @@ connection.onmessage = function(event) {
         external_faces.set(username,inbound_facemesh)  
       }else if (!(facemeshes.has(username))){
         console.log("new user");
-        add_screen(username,"temp");
+        add_screen(username,inbound_texture);
       };
       //console.log(facemesh)
 
