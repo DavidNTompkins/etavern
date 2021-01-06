@@ -398,7 +398,7 @@ async function init() {
   ]);
   try {
     let tempface_var = await getFace(modelRef, texture);
-    referenceFaces.set("myself") = tempface_var;
+    referenceFaces.set("myself",tempface_var);
   } catch (e) {
     console.error(e);
     return;
@@ -424,7 +424,7 @@ async function dropHandler(ev) {
         const url = URL.createObjectURL(file);
         let texture = await loader.loadAsync(url);
         try {
-          referenceFaces.set("myself") = await getFace(modelRef, texture);
+          referenceFaces.set("myself", await getFace(modelRef, texture));
         } catch (e) {
           console.error(e);
           return;
