@@ -194,11 +194,15 @@ debugCamera.position.set(300, 300, 300);
 debugCamera.lookAt(scene.position);
 const controls = new OrbitControls(debugCamera, renderer.domElement);
 */
-let width =0;
-let height = 0;
+/*let width =0;
+let height = 0; */ // - commented out these two in favor of the below. 
+const width = av.video.videoWidth;
+const height = av.video.videoHeight;
+console.log(width);
+console.log(height);
 const camera = new OrthographicCamera(-0.5*windowWidth, 0.5*windowWidth, 0.5*windowHeight, -0.5*windowHeight, -1000, 1000);
 
-/*function resize() {
+function resize() {
   const videoAspectRatio = width / height;
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
@@ -221,7 +225,7 @@ window.addEventListener("resize", () => {
   resize();
 }); 
 
-resize();*/
+resize();
 
 //renderer.render(scenes[0], camera);
 
