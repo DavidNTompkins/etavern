@@ -201,6 +201,8 @@ function resize() {
     width = windowWidth;
     height = windowHeight;
     renderer.setSize(width, height);
+    canvas.width = width;
+    canvas.height = height;
 }
   /* const videoAspectRatio = width / height;
   const windowWidth = window.innerWidth;
