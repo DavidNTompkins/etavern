@@ -138,20 +138,12 @@ connection.sdpConstraints.mandatory = {
 };
 // This code adds in the audio playback. Should work to make it hidden. 
 connection.onstream = function(event) {
-    //removed add screen from here
+    
+    if(event.type !== 'local'){add_screen("temp","yep")}; // added here from onstream.
     document.body.appendChild( event.mediaElement );
     //Here's where we should begin appending face mesh divs. 
 };
-connection.onNewParticipant = function(participantId, userPreferences) {
-    // if OfferToReceiveAudio/OfferToReceiveVideo should be enabled for specific users
-   // userPreferences.localPeerSdpConstraints.OfferToReceiveAudio = true;
-    //userPreferences.localPeerSdpConstraints.OfferToReceiveVideo = false;
-    add_screen("temp","yep"); // added here from onstream.
-
-    // below line must be included. Above all lines are optional.
-    // if below line is NOT included; "join-request" will be considered rejected.
-    connection.acceptParticipationRequest(participantId, userPreferences);
-};
+c
 
 
 // ----------------------------------------
@@ -343,7 +335,7 @@ async function render(model) {
         facemeshes[k].uvs[j * 2 + 1] = 1 - y;
       }
       facemeshes[k].getAttribute("uv").needsUpdate = true;
-      const x_origin =(0.60-((k+1)%2)*0.3);
+      const x_origin =(0.60-(((k+1)%2)*0.4));
       const y_origin =(1-Math.ceil(0.5*(k+1))*0.2)
       facemeshes[k].setSize((av.video.videoWidth-(0.5*windowWidth)+(x_origin*windowWidth)), (av.video.videoHeight-(0.5*windowHeight)+(y_origin*windowHeight))); // DT - This should recenter the face to the camera
       };
