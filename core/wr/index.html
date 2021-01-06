@@ -441,7 +441,6 @@ async function dropHandler(ev) {
 // ----------------------------------------
 // This function handles creating new facemeshes. Name is legacy, should probably be updated to represent truth (adds meshes not screens)
 function add_screen(username, texture){
-  
     // Create material for mask.
   const material = new MeshStandardMaterial({
     color: 0xffffff,
@@ -458,9 +457,8 @@ function add_screen(username, texture){
   const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
   const mask = new Mesh(new_faceGeometry, materials.get(username));
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
-  materials.get(username).map = texture;
   scene.add(mask);
-  materials.get(username).map = referenceFaces.get(username).texture;
+  materials.get(username).map = texture;
   materials.get(username).needsUpdate = true;
 
   if (facemeshes.size>0) {
