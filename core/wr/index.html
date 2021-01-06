@@ -200,8 +200,8 @@ const camera = new OrthographicCamera(-0.5*windowWidth, 0.5*windowWidth, 0.5*win
 
 function resize() {
   const videoAspectRatio = width / height;
-  windowWidth = window.innerWidth;
-  windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
   const windowAspectRatio = windowWidth / windowHeight;
   let adjustedWidth;
   let adjustedHeight;
