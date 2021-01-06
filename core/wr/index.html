@@ -327,11 +327,12 @@ async function render(model) {
   // There's at least one face.
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
-    connection.send({
+     if(connection.getAllParticipants().length>1){ 
+      connection.send({
       texture: local_texture,
       facemesh: faces[0]
-    });
-    //console.log(faces[0])
+     });
+    }//console.log(faces[0])
     
 
     // Update face mesh geometry with new data. 
