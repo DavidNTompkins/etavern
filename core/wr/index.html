@@ -428,7 +428,7 @@ async function dropHandler(ev) {
           console.error(e);
           return;
         }
-        materials.get("myself").map = referenceFace.get("myself").texture;
+        materials.get("myself").map = referenceFaces.get("myself").texture;
         materials.get("myself").needsUpdate = true;
         status.textContent = "";
       }
@@ -461,14 +461,11 @@ function add_screen(username, texture){
   materials.get(username).map = texture;
   scene.add(mask);
 
-
   if (facemeshes.size>0) {
     //console.log(username);
     new_faceGeometry.setSize(canvas.width,canvas.height);
   }else{
     new_faceGeometry.setSize(canvas.width,canvas.height);
-    //new_faceGeometry.scale(0.5,0.5,0.5);
-    //new_faceGeometry.applyMatrix4(new Matrix4().makeScale(0.5, 0.5, 0.5));
   };
   facemeshes.set(username,new_faceGeometry);
   //console.log(facemeshes)
