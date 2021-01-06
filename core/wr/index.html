@@ -343,10 +343,10 @@ async function render(model) {
         facemeshes[k].uvs[j * 2 + 1] = 1 - y;
       }
       facemeshes[k].getAttribute("uv").needsUpdate = true;
-    };
     const x_origin =(0.60-(k%2)*0.2);
     const y_origin =(1-ceil(0.5*k)*0.2)
     facemeshes[k].setSize(x_origin, y_origin); // DT - This should recenter the face to the camera
+    };
 }
   // below actually renders
   renderer.render(scene, camera);
