@@ -480,7 +480,7 @@ function add_screen(username, texture){
 connection.onmessage = function(event) {
       const inbound_facemesh = event.data.inbound_facemesh;
       const username = event.userid;
-      const inbound_texture = inbound_texture;
+      const inbound_texture = event.data.inbound_texture;
       if (facemeshes.has(username)){
         console.log("attempting to update other facemesh")
         external_faces.set(username,inbound_facemesh)  
