@@ -47,7 +47,7 @@
         top: 1;
         width: 100%;
         height: 100%;
-        background-color: blue;
+        background-color: #897461;
       }
 
       #status {
@@ -59,7 +59,7 @@
         padding: 1em;
         font-family: roboto, sans-serif;
         z-index: 1;
-        background: red;
+        background: gray;
       }
       button{
         z-index: 15;
@@ -355,7 +355,7 @@ async function render(model) {
       }
       value.getAttribute("uv").needsUpdate = true;
       const x_origin =(0.60-(((k+1)%2)*0.4));
-      const y_origin =(1.1-Math.ceil(0.5*(k+1))*0.2)
+      const y_origin =(1.1-Math.ceil(0.5*(k+1))*0.5)
       value.setSize((x_origin*windowWidth), (y_origin*windowHeight)); 
       k+=1;
       };
