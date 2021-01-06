@@ -330,7 +330,7 @@ async function render(model) {
     // Update face mesh geometry with new data. 
     // ---- This one updates the same face
     facemeshes[0].update(faces[0], flipCamera);
-    facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
+    //facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
     
 
 
@@ -345,7 +345,7 @@ async function render(model) {
       facemeshes[k].getAttribute("uv").needsUpdate = true;
     const x_origin =(0.60-(k%2)*0.2);
     const y_origin =(1-Math.ceil(0.5*k)*0.2)
-    facemeshes[k].setSize(av.video.videoWidth, av.video.videoHeight); // DT - This should recenter the face to the camera
+    facemeshes[k].setSize((av.video.videoWidth-(0.5*windowWidth)+(x_origin*windowWidth)), (av.video.videoHeight-(0.5*windowHeight)+(y_origin*windowHeight))); // DT - This should recenter the face to the camera
     };
 }
   // below actually renders
