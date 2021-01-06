@@ -337,7 +337,7 @@ async function render(model) {
      if(connected_flag){ 
       connection.send({
         texture: local_texture,
-        facemesh: faces[0]
+        inbound_facemesh: faces[0]
      });
     };//console.log(faces[0])
     
@@ -475,12 +475,12 @@ function add_screen(username, texture){
 
 
 connection.onmessage = function(event) {
-      facemesh = event.data.facemesh;
+      inbound_facemesh = event.data.inbound_facemesh;
       const username = event.userid;
 
       if (facemeshes.has(username)){
         console.log("attempting to update other facemesh")
-        external_faces.set(username,facemesh)  
+        external_faces.set(username,inbound_facemesh)  
       }else if (!(facemeshes.has(username))){
         console.log("new user");
         add_screen(username,"temp");
