@@ -113,13 +113,14 @@ import { FaceMeshFaceGeometry } from "../../js/face.js";
 import { OrbitControls } from "../../third_party/OrbitControls.js";
 
 
-//some dummy variables until I get everything integrated
+//reserving some variables
 let local_username=""
 let local_texture="Rabbits"
-let local_facemesh="Bananas"
+let local_facemesh=""
 let facemeshes = new Map();
 let textures = new Map();
 let external_faces = new Map(); // (allows me to only update external faces with most recent face (hopefully))
+const connected_flag = false;
 
 // ----------------------------------------
 // Code for initializing data + sound only connection 
@@ -146,6 +147,11 @@ connection.onstream = function(event) {
     //Here's where we should begin appending face mesh divs. 
 };
 
+connection.onPeerStateChanged = function(state) {
+    if (state.iceConnectionState=='connected') {
+      connected_flag = true;
+    }
+};
 
 
 // ----------------------------------------
@@ -328,7 +334,7 @@ async function render(model) {
   // There's at least one face.
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
-     if(connection.getAllParticipants().length>0){ 
+     if(connected_flag){ 
       connection.send({
         texture: local_texture,
         facemesh: faces[0]
