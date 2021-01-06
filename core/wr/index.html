@@ -117,7 +117,8 @@ import { OrbitControls } from "../../third_party/OrbitControls.js";
 let local_username="Hogs"
 let local_texture="Rabbits"
 let local_facemesh="Bananas"
-const facemeshes =[];
+let facemeshes = new Map();
+let textures = new Map();
 
 // ----------------------------------------
 // Code for initializing data + sound only connection 
@@ -139,7 +140,7 @@ connection.sdpConstraints.mandatory = {
 // This code adds in the audio playback. Should work to make it hidden. 
 connection.onstream = function(event) {
     
-    if(event.type !== 'local'){add_screen("temp","yep")}; // added here from onstream.
+    //if(event.type !== 'local'){add_screen("temp","yep")}; // added here from onstream.
     document.body.appendChild( event.mediaElement );
     //Here's where we should begin appending face mesh divs. 
 };
@@ -334,23 +335,26 @@ async function render(model) {
 
     // Update face mesh geometry with new data. 
     // ---- This one updates the same face
-    facemeshes[0].update(faces[0], flipCamera);
+    facemeshes.get("myself").update(faces[0], flipCamera);
     //facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
     
 
 
     // Use the reference face texture coordinates for this face geometry.
-    for (let k = 0; k <facemeshes.length; k++) {    
+    //for (let k = 0; k <facemeshes.length; k++) {    
+    let k = 0
+    for (let value of facemeshes.values()){
       for (let j = 0; j < 468; j++) {
         let x = referenceFace.face.scaledMesh[j][0];
         let y = referenceFace.face.scaledMesh[j][1];
-        facemeshes[k].uvs[j * 2] = x;
-        facemeshes[k].uvs[j * 2 + 1] = 1 - y;
+        value.uvs[j * 2] = x; //value was facemeshes[k]
+        value.uvs[j * 2 + 1] = 1 - y;
       }
-      facemeshes[k].getAttribute("uv").needsUpdate = true;
+      value.getAttribute("uv").needsUpdate = true;
       const x_origin =(0.60-(((k+1)%2)*0.4));
       const y_origin =(1-Math.ceil(0.5*(k+1))*0.2)
-      facemeshes[k].setSize((av.video.videoWidth-(0.5*windowWidth)+(x_origin*windowWidth)), (av.video.videoHeight-(0.5*windowHeight)+(y_origin*windowHeight))); // DT - This should recenter the face to the camera
+      value.setSize((av.video.videoWidth-(0.5*windowWidth)+(x_origin*windowWidth)), (av.video.videoHeight-(0.5*windowHeight)+(y_origin*windowHeight))); // DT - This should recenter the face to the camera
+      k+=1
       };
 }
   // below actually renders
@@ -397,7 +401,7 @@ async function init() {
   }
   material.map = referenceFace.texture;
   status.textContent = "Detecting face...";
-  add_screen("temp","yep");
+  add_screen("myself","yep");
   await render(model);
   status.textContent = "Drop an image into the page.";
 
@@ -444,9 +448,9 @@ function add_screen(username, texture){
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   scene.add(mask);
 
-  if (facemeshes.length>0) {
+  if (facemeshes.size>0) {
     console.log("loading otherperson face")
-    new_faceGeometry.setSize(300,300);
+    new_faceGeometry.setSize(canvas.width,canvas.height);
   }else{
     console.log("loading my own face")
     new_faceGeometry.setSize(canvas.width,canvas.height);
@@ -455,17 +459,22 @@ function add_screen(username, texture){
   };
 
 
-  facemeshes.push(new_faceGeometry);
+  facemeshes.set(username,new_faceGeometry);
    
 }
 
 
 connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
+      username = event.userid;
+      if facemeshes.has(username){
+        facemeshes.get(username).update(facemesh, flipCamera);  
+      }
+      else{
+        add_screen(username,"temp");
+      }
       //console.log(facemesh)
-      facemeshes[1].update(facemesh, flipCamera)
-      const w = av.video.videoWidth;
-      const h = av.video.videoHeight;
+
       //facemeshes[1].setSize(windowWidth,windowHeight);
       //facemeshes[1].scale(0.5,0.5,0.5);
       //renderer.render(scene, camera); // commenting this out as we dont need the extra render
