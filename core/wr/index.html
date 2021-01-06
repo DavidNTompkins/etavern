@@ -114,7 +114,7 @@ import { OrbitControls } from "../../third_party/OrbitControls.js";
 
 
 //some dummy variables until I get everything integrated
-let local_username="Hogs"
+let local_username=""
 let local_texture="Rabbits"
 let local_facemesh="Bananas"
 let facemeshes = new Map();
@@ -326,7 +326,6 @@ async function render(model) {
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
     connection.send({
-      username: local_username,
       texture: local_texture,
       facemesh: faces[0]
     });
@@ -344,6 +343,7 @@ async function render(model) {
     //for (let k = 0; k <facemeshes.length; k++) {    
     let k = 0
     for (let value of facemeshes.values()){
+      console.log(k);
       for (let j = 0; j < 468; j++) {
         let x = referenceFace.face.scaledMesh[j][0];
         let y = referenceFace.face.scaledMesh[j][1];
@@ -354,7 +354,7 @@ async function render(model) {
       const x_origin =(0.60-(((k+1)%2)*0.4));
       const y_origin =(1-Math.ceil(0.5*(k+1))*0.2)
       value.setSize((av.video.videoWidth-(0.5*windowWidth)+(x_origin*windowWidth)), (av.video.videoHeight-(0.5*windowHeight)+(y_origin*windowHeight))); // DT - This should recenter the face to the camera
-      k+=1
+      k+=1;
       };
 }
   // below actually renders
@@ -464,8 +464,9 @@ function add_screen(username, texture){
 connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       const username = event.userid;
-      console.log(username);
+
       if (facemeshes.has([username])){
+        console.log("attempting to update other facemesh")
         facemeshes.get([username]).update(facemesh, flipCamera);  
       }
       else{
