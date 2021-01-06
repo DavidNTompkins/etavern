@@ -300,8 +300,8 @@ async function render(model) {
   // Wait for video to be ready (loadeddata).
   await av.ready();
   // Flip video element horizontally if necessary.
-  windowWidth = window.innerWidth;
-  windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
   av.video.style.transform = flipCamera ? "scaleX(-1)" : "scaleX(1)";
   av.video.style.display = "none";
 
