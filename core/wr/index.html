@@ -469,7 +469,7 @@ connection.onmessage = function(event) {
 
       if (facemeshes.has(username)){
         console.log("attempting to update other facemesh")
-        facemeshes.get([username]).update(facemesh, flipCamera);  
+        facemeshes.get(username).update(facemesh, flipCamera);  
       }else if (!(facemeshes.has(username))){
         console.log("new user");
         add_screen(username,"temp");
