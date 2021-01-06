@@ -460,6 +460,8 @@ function add_screen(username, texture){
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   materials.get(username).map = texture;
   scene.add(mask);
+  materials.get(username).map = referenceFaces.get(username).texture;
+  materials.get(username).needsUpdate = true;
 
   if (facemeshes.size>0) {
     //console.log(username);
@@ -484,7 +486,7 @@ connection.onmessage = function(event) {
 
       }else if (!(facemeshes.has(username))){
         console.log("new user");
-        add_screen(username,referenceFaces.get(username));
+        add_screen(username,referenceFaces.get(username).texture);
       };
       //console.log(facemesh)
 
