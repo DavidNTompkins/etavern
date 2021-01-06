@@ -467,7 +467,7 @@ function add_screen(username, texture){
 connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       const username = event.userid;
-      if facemeshes.has(username){
+      if facemeshes.has('test'){
         facemeshes.get(username).update(facemesh, flipCamera);  
       }
       else{
