@@ -200,6 +200,7 @@ function resize() {
     camera.updateProjectionMatrix();
     width = windowWidth;
     height = windowHeight;
+    renderer.setSize(width, height);
 }
   /* const videoAspectRatio = width / height;
   const windowWidth = window.innerWidth;
