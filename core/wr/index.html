@@ -198,8 +198,8 @@ function resize() {
     camera.top = 0.5 * h;
     camera.bottom = -0.5 * h;
     camera.updateProjectionMatrix();
-    width = windowWidth;
-    height = windowHeight;
+    width = w;
+    height = h;
     renderer.setSize(width, height);
     canvas.width = width;
     canvas.height = height;
