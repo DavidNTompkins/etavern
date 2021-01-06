@@ -47,7 +47,7 @@
         top: 1;
         width: 100%;
         height: 100%;
-        background-color: #897461;
+        background-color: #60798E;
       }
 
       #status {
@@ -119,6 +119,7 @@ let local_texture="Rabbits"
 let local_facemesh="Bananas"
 let facemeshes = new Map();
 let textures = new Map();
+let external_faces = new Map(); // (allows me to only update external faces with most recent face (hopefully))
 
 // ----------------------------------------
 // Code for initializing data + sound only connection 
@@ -338,6 +339,9 @@ async function render(model) {
     // Update face mesh geometry with new data. 
     // ---- This one updates the same face
     facemeshes.get("myself").update(faces[0], flipCamera);
+    for (let entry of external_faces.entries()){
+      facemeshes.get(entry[0]).update(entry[1], flipCamera);
+    };
     //facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
     
 
@@ -470,7 +474,7 @@ connection.onmessage = function(event) {
 
       if (facemeshes.has(username)){
         console.log("attempting to update other facemesh")
-        facemeshes.get(username).update(facemesh, flipCamera);  
+        external_faces.set(username,facemesh)  
       }else if (!(facemeshes.has(username))){
         console.log("new user");
         add_screen(username,"temp");
