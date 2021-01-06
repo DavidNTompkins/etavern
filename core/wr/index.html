@@ -169,9 +169,13 @@ document.getElementById('btn-join-room').onclick = function() {
 };
 // ----------------------------------------
 // face generation logic:
+const windowWidth = window.innerWidth;
+const windowHeight = window.innerHeight;
 const av = document.querySelector("gum-av");
 const canvas = document.querySelector("canvas");
 const status = document.querySelector("#status");
+canvas.width = windowWidth;
+canvas.height = windowHeight;
 
 // Set a background color, or change alpha to false for a solid canvas.
 const renderer = new WebGLRenderer({ antialias: true, alpha: true, canvas });
@@ -182,7 +186,6 @@ renderer.shadowMap.type = PCFSoftShadowMap;
 renderer.outputEncoding = sRGBEncoding;
 
 const scene = new Scene();
-const camera = new OrthographicCamera(1, 1, 1, 1, -1000, 1000);
 
 // Change to renderer.render(scene, debugCamera); for interactive view.
 /*
@@ -193,10 +196,12 @@ const controls = new OrbitControls(debugCamera, renderer.domElement);
 */
 let width =0;
 let height = 0;
+const camera = new OrthographicCamera(-0.5*windowWidth, 0.5*windowWidth, 0.5*windowHeight, -0.5*windowHeight, -1000, 1000);
+
 function resize() {
   const videoAspectRatio = width / height;
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
+  windowWidth = window.innerWidth;
+  windowHeight = window.innerHeight;
   const windowAspectRatio = windowWidth / windowHeight;
   let adjustedWidth;
   let adjustedHeight;
@@ -293,7 +298,7 @@ async function render(model) {
   av.video.style.display = "none";
 
   // Resize orthographic camera to video dimensions if necessary.
-  if (width !== av.video.videoWidth || height !== av.video.videoHeight) {
+  /*if (width !== av.video.videoWidth || height !== av.video.videoHeight) {
     const w = av.video.videoWidth;
     const h = av.video.videoHeight;
     camera.left = -0.5 * w;
@@ -304,8 +309,8 @@ async function render(model) {
     width = w;
     height = h;
     //resize();
-    facemeshes[0].setSize(0.75*w, h); // DT - This should recenter the face to the camera
-  } 
+  } */ //-DT commented this out so that we can hard-set the orthocamera
+
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
 
@@ -326,6 +331,8 @@ async function render(model) {
     // ---- This one updates the same face
     facemeshes[0].update(faces[0], flipCamera);
     facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
+    facemeshes[0].setSize(0.75*w, h); // DT - This should recenter the face to the camera
+
 
     // Use the reference face texture coordinates for this face geometry.
     for (let k = 0; k <facemeshes.length; k++) {    
