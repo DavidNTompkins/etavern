@@ -475,7 +475,7 @@ function add_screen(username, texture){
 
 
 connection.onmessage = function(event) {
-      inbound_facemesh = event.data.inbound_facemesh;
+      const inbound_facemesh = event.data.inbound_facemesh;
       const username = event.userid;
 
       if (facemeshes.has(username)){
