@@ -354,10 +354,10 @@ async function render(model) {
         entry[1].uvs[j * 2] = x; //value was facemeshes[k]
         entry[1].uvs[j * 2 + 1] = 1 - y;
       }
-      value.getAttribute("uv").needsUpdate = true;
+      entry[1].getAttribute("uv").needsUpdate = true;
       const x_origin =(0.6-(((k+1)%2)*0.6));
       const y_origin =(1.4-Math.ceil(0.5*(k+1))*0.5)
-      value.setSize((x_origin*windowWidth), (y_origin*windowHeight)); 
+      entry[1].setSize((x_origin*windowWidth), (y_origin*windowHeight)); 
       k+=1;
       };
 }
