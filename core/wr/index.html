@@ -397,7 +397,8 @@ async function init() {
     facemesh.load({ maxFaces: 1 }),
   ]);
   try {
-    referenceFaces.set("myself") = await getFace(modelRef, texture);
+    let tempface_var = await getFace(modelRef, texture);
+    referenceFaces.set("myself") = tempface_var;
   } catch (e) {
     console.error(e);
     return;
