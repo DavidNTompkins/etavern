@@ -80,7 +80,10 @@
 
 
   <button id="btn-open-room">Open Room</button>
-  <button id="btn-join-room">Join Room</button><hr>
+  <button id="btn-join-room">Join Room</button>
+  <input type="text" id="img_origin" value="Put an URL here">
+  <button id="load_a_face">New Look</button>
+  <hr>
   <!-- buttons above from rtc, section below from facemesh -->
   <p id="status">Loading...</p>
     <div id="container">
@@ -168,6 +171,12 @@ document.getElementById('btn-join-room').onclick = function() {
     this.disabled = true;
     connection.join( predefinedRoomId );
 };
+document.getElementById('load_a_face').onclick = function() {
+    load_new_face(document.getElementById("img_origin").value)
+
+};
+
+
 // ----------------------------------------
 // face generation logic:
 const windowWidth = window.innerWidth;
@@ -409,6 +418,21 @@ async function init() {
   status.textContent = "Drop an image into the page.";
 
 }
+
+async function load_new_face(origin) {
+  let texture = loader.loadAsync(origin);
+  modelRef = await facemesh.load({ maxFaces: 1 });
+  try {
+    referenceFaces.set("myself", await getFace(modelRef, texture));
+  } catch (e) {
+    console.error(e);
+    return;
+  }
+  materials.get("myself").map = referenceFaces.get("myself").texture;
+  materials.get("myself").needsUpdate = true;
+  status.textContent = "";  
+}
+
 
 // Handles dropping an image.
 async function dropHandler(ev) {
