@@ -467,10 +467,10 @@ connection.onmessage = function(event) {
       facemesh = event.data.facemesh;
       const username = event.userid;
 
-      if (facemeshes.has([username])){
+      if (facemeshes.has(username)){
         console.log("attempting to update other facemesh")
         facemeshes.get([username]).update(facemesh, flipCamera);  
-      }else if (!(facemeshes.has([username]))){
+      }else if (!(facemeshes.has(username))){
         console.log("new user");
         add_screen(username,"temp");
       };
