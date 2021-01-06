@@ -355,7 +355,7 @@ async function render(model) {
       value.getAttribute("uv").needsUpdate = true;
       const x_origin =(0.60-(((k+1)%2)*0.2));
       const y_origin =(1-Math.ceil(0.5*(k+1))*0.2)
-      value.setSize((av.video.videoWidth-(0.5*windowWidth)+(x_origin*windowWidth)), (av.video.videoHeight-(0.5*windowHeight)+(y_origin*windowHeight))); 
+      value.setSize((x_origin*windowWidth), (y_origin*windowHeight)); 
       k+=1;
       };
 }
