@@ -190,8 +190,18 @@ let width =0;
 let height = 0;
 const camera = new OrthographicCamera(-0.5*windowWidth, 0.5*windowWidth, 0.5*windowHeight, -0.5*windowHeight, -1000, 1000);
 
-/*function resize() {
-  const videoAspectRatio = width / height;
+function resize() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    camera.left = -0.5 * w;
+    camera.right = 0.5 * w;
+    camera.top = 0.5 * h;
+    camera.bottom = -0.5 * h;
+    camera.updateProjectionMatrix();
+    width = windowWidth;
+    height = windowHeight;
+}
+  /* const videoAspectRatio = width / height;
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   const windowAspectRatio = windowWidth / windowHeight;
@@ -208,12 +218,12 @@ const camera = new OrthographicCamera(-0.5*windowWidth, 0.5*windowWidth, 0.5*win
   //debugCamera.aspect = videoAspectRatio;
   //debugCamera.updateProjectionMatrix();
 }
-
+*/
 window.addEventListener("resize", () => {
   resize();
 }); 
 
-resize();*/
+resize();
 
 //renderer.render(scenes[0], camera);
 
