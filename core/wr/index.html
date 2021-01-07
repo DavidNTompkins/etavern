@@ -125,6 +125,7 @@ let referenceFaces = new Map();
 let external_faces = new Map(); // (allows me to only update external faces with most recent face (hopefully))
 let materials = new Map();
 let connected_flag = false;
+let model;
 
 // ----------------------------------------
 // Code for initializing data + sound only connection 
@@ -404,21 +405,20 @@ async function getFace(model, texture) {
   return { texture, face: faces[0] };
 }
 
-// We need a separate model because they can't be reused (?).
-let modelRef;
+// We need a separate model because they can't be reused (?) - DT: concerning
+//let modelRef;
 
 // Init the demo, loading dependencies.
 async function init() {
   await Promise.all([tf.setBackend("webgl"), av.ready()]);
   status.textContent = "Loading model...";
-  let texture, model;
-  [texture, model, modelRef] = await Promise.all([
+  let texture, model; //dropped modelref from here.
+  [texture, model] = await Promise.all([
     loader.loadAsync("../../assets/dnt32.jpg"),
-    facemesh.load({ maxFaces: 1 }),
     facemesh.load({ maxFaces: 1 }),
   ]);
   try {
-    referenceFaces.set("myself",await getFace(modelRef, texture));
+    referenceFaces.set("myself",await getFace(model, texture));
   } catch (e) {
     console.error(e);
     return;
@@ -434,9 +434,9 @@ async function init() {
 async function load_new_face(origin,username) {
   status.textContent = "New Face, New Me"
   let texture = await loader.loadAsync(origin);
-  modelRef = await facemesh.load({ maxFaces: 1 });
+  //modelRef = await facemesh.load({ maxFaces: 1 }); //dropping this, model is global
   try {
-    referenceFaces.set(username, await getFace(modelRef, texture));
+    referenceFaces.set(username, await getFace(model, texture));
   } catch (e) {
     status.textContent = "Try a different image, or check your link"
     console.error(e);
@@ -457,11 +457,11 @@ async function dropHandler(ev) {
     for (let item of ev.dataTransfer.items) {
       if (item.kind === "file") {
         var file = item.getAsFile();
-        modelRef = await facemesh.load({ maxFaces: 1 });
+        //modelRef = await facemesh.load({ maxFaces: 1 });// dropping this, model is global
         const url = URL.createObjectURL(file);
         let texture = await loader.loadAsync(url);
         try {
-          referenceFaces.set("myself", await getFace(modelRef, texture));
+          referenceFaces.set("myself", await getFace(model, texture));
         } catch (e) {
           console.error(e);
           return;
