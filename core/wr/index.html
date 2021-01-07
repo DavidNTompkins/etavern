@@ -417,7 +417,7 @@ async function init() {
     facemesh.load({ maxFaces: 1 }),
   ]);
   try {
-    default_face= await getFace(modelRef, texture);
+    default_face= await getFace(modelRef, default_texture);
   } catch (e) {
     console.error(e);
     return;
