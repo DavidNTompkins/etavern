@@ -435,13 +435,14 @@ async function load_new_face(origin,username) {
   //modelRef = await facemesh.load({ maxFaces: 1 });
   try {
     referenceFaces.set(username, await getFace(modelRef, texture));
+    materials.get(username).map = referenceFaces.get(username).texture;
+    materials.get(username).needsUpdate = true;
   } catch (e) {
     status.textContent = "Try a different image, or check your link"
     console.error(e);
     return;
   }
-  materials.get(username).map = referenceFaces.get(username).texture;
-  materials.get(username).needsUpdate = true;
+  
   //status.textContent = "";  
 }
 
