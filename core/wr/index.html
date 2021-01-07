@@ -186,7 +186,7 @@ document.getElementById('btn-join-room').onclick = function() {
     connection.join( predefinedRoomId );
 };
 document.getElementById('load_a_face').onclick = function() {
-    load_new_face(document.getElementById("img_origin").value,"myself");
+    await load_new_face(document.getElementById("img_origin").value,"myself");
     connection.extra.img_origin= document.getElementById("img_origin").value;
     connection.updateExtraData();
     materials.get("myself").needsUpdate = true;
