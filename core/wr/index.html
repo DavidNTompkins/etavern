@@ -425,7 +425,7 @@ async function init() {
   }
   //material.map = referenceFace.texture;
   status.textContent = "Detecting face...";
-  (add_screen"myself","../../assets/dnt32.jpg");//referenceFaces.get("myself").texture);
+  add_screen("myself","../../assets/dnt32.jpg");//referenceFaces.get("myself").texture);
   await render(model);
   status.textContent = "Drop an image into the page.";
 
@@ -497,9 +497,6 @@ function add_screen(username, origin){
   const mask = new Mesh(new_faceGeometry, materials.get(username));
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   scene.add(mask);
-  
-  
-
   /*materials.get(username).map = texture;
   materials.get(username).needsUpdate = true; */
 
