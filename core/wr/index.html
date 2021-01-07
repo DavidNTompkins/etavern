@@ -439,7 +439,7 @@ async function load_new_face(origin,username) {
   //modelRef = await facemesh.load({ maxFaces: 1 });
   try {
     let temp_ref_face = await getFace(modelRef, await loader.loadAsync(origin));
-    referenceFaces.set(username, temp_ref_face));
+    referenceFaces.set(username, temp_ref_face);
   } catch (e) {
     status.textContent = "Try a different image, or check your link"
     console.error(e);
@@ -464,7 +464,7 @@ async function dropHandler(ev) {
         const url = URL.createObjectURL(file);
         let texture = await loader.loadAsync(url);
         try {
-          referenceFaces.set("myself", await getFace(modelRef, texture);
+          referenceFaces.set("myself", await getFace(modelRef, texture));
         } catch (e) {
           console.error(e);
           return;
