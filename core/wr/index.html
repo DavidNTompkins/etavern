@@ -159,6 +159,12 @@ connection.onPeerStateChanged = function(state) {
 connection.extra.img_origin= "../../assets/dnt32.jpg";
 connection.updateExtraData;
 
+connection.onExtraDataUpdated = function(event) {
+    var new_origin = event.extra.img_origin;
+    var whoModified = event.userid; // or event.extra.fullName
+    load_new_face(new_origin,whoModified);
+};
+
 
 // ----------------------------------------
 // UI logic - needs to change to either generate tavern names or accept existing
