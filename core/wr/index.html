@@ -390,7 +390,7 @@ async function render(model) {
 }
 
 // Tries to find a face in an image so we can texure map it into the life feed face.
-async function getFace(model, texture) {
+async function getFace(model2, texture) {
   const faces = await model.estimateFaces(texture.image);
   if (!faces.length) {
     status.textContent = "No face detected! Try another image.";
