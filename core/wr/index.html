@@ -157,7 +157,7 @@ connection.onPeerStateChanged = function(state) {
     }
 };
 connection.extra.img_origin= "../../assets/dnt32.jpg";
-connection.updateExtraData;
+connection.updateExtraData();
 
 connection.onExtraDataUpdated = function(event) {
     var new_origin = event.extra.img_origin;
@@ -183,7 +183,7 @@ document.getElementById('btn-join-room').onclick = function() {
 document.getElementById('load_a_face').onclick = function() {
     load_new_face(document.getElementById("img_origin").value,"myself");
     connection.extra.img_origin= document.getElementById("img_origin").value;
-    connection.updateExtraData;
+    connection.updateExtraData();
 
 };
 
