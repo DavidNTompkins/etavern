@@ -185,7 +185,7 @@ document.getElementById('btn-join-room').onclick = function() {
     this.disabled = true;
     connection.join( predefinedRoomId );
 };
-document.getElementById('load_a_face').onclick = function() {
+document.getElementById('load_a_face').onclick = async function() {
     await load_new_face(document.getElementById("img_origin").value,"myself");
     connection.extra.img_origin= document.getElementById("img_origin").value;
     connection.updateExtraData();
