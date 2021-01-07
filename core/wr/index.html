@@ -162,10 +162,13 @@ connection.extra.img_origin= "../../assets/dnt32.jpg";
 connection.socketCustomParameters = '&extra=' + JSON.stringify(connection.extra);
 
 connection.onExtraDataUpdated = function(event) {
-    var new_origin = event.extra.img_origin;
-    var whoModified = event.userid; // or event.extra.fullName
+
+  var new_origin = event.extra.img_origin;
+  var whoModified = event.userid; // or event.extra.fullName
+  if(facemeshes.get(whoModified)){
     load_new_face(new_origin,whoModified);
     console.log("New Face received")
+  };
 };
 
 
