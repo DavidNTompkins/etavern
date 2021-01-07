@@ -340,7 +340,7 @@ async function render(model) {
       // here's where I'm going to try to send data: 
      if(connected_flag){ 
       connection.send({
-        inbound_texture: referenceFaces.get("myself"),
+        //inbound_texture: referenceFaces.get("myself"),
         inbound_facemesh: faces[0]
      });
     };//console.log(faces[0])
@@ -359,13 +359,13 @@ async function render(model) {
     // Use the reference face texture coordinates for this face geometry.
     //for (let k = 0; k <facemeshes.length; k++) {    
     let k = 0
-    for (let entry of facemeshes.entries()){
+    for (let entry of referenceFaces.entries()){
       //console.log(k);
       for (let j = 0; j < 468; j++) {
-        let x = referenceFaces.get(entry[0]).face.scaledMesh[j][0];
-        let y = referenceFaces.get(entry[0]).face.scaledMesh[j][1];
-        entry[1].uvs[j * 2] = x; //value was facemeshes[k]
-        entry[1].uvs[j * 2 + 1] = 1 - y;
+        let x = entry[1].face.scaledMesh[j][0]; // entry[1] was referenceFaces.get(entry[0])under facemeshes iteration
+        let y = entry[1].face.scaledMesh[j][1];
+        facemeshes.get(entry[0]).uvs[j * 2] = x; //value was facemeshes[k]
+        facemeshes.get(entry[0]).uvs[j * 2 + 1] = 1 - y;
       }
       entry[1].getAttribute("uv").needsUpdate = true;
       const x_origin =(0.6-(((k+1)%2)*0.6));
