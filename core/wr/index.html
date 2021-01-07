@@ -156,6 +156,8 @@ connection.onPeerStateChanged = function(state) {
       connected_flag = true;
     }
 };
+connection.extra.img_origin= "../../assets/dnt32.jpg";
+connection.updateExtraData;
 
 
 // ----------------------------------------
@@ -172,7 +174,9 @@ document.getElementById('btn-join-room').onclick = function() {
     connection.join( predefinedRoomId );
 };
 document.getElementById('load_a_face').onclick = function() {
-    load_new_face(document.getElementById("img_origin").value)
+    load_new_face(document.getElementById("img_origin").value,"myself");
+    connection.extra.img_origin= document.getElementById("img_origin").value;
+    connection.updateExtraData;
 
 };
 
@@ -413,24 +417,26 @@ async function init() {
   }
   //material.map = referenceFace.texture;
   status.textContent = "Detecting face...";
-  add_screen("myself",referenceFaces.get("myself").texture);
+  add_screen("myself","../../assets/dnt32.jpg");//referenceFaces.get("myself").texture);
   await render(model);
   status.textContent = "Drop an image into the page.";
 
 }
 
-async function load_new_face(origin) {
+async function load_new_face(origin,username) {
+  status.textContent = "New Face, New Me"
   let texture = await loader.loadAsync(origin);
   modelRef = await facemesh.load({ maxFaces: 1 });
   try {
-    referenceFaces.set("myself", await getFace(modelRef, texture));
+    referenceFaces.set(username, await getFace(modelRef, texture));
   } catch (e) {
+    status.textContent = "Try a different image, or check your link"
     console.error(e);
     return;
   }
-  materials.get("myself").map = referenceFaces.get("myself").texture;
-  materials.get("myself").needsUpdate = true;
-  status.textContent = "";  
+  materials.get(username).map = referenceFaces.get(username).texture;
+  materials.get(username).needsUpdate = true;
+  //status.textContent = "";  
 }
 
 
@@ -464,7 +470,7 @@ async function dropHandler(ev) {
 }
 // ----------------------------------------
 // This function handles creating new facemeshes. Name is legacy, should probably be updated to represent truth (adds meshes not screens)
-function add_screen(username, texture){
+function add_screen(username, origin){
     // Create material for mask.
   const material = new MeshStandardMaterial({
     color: 0xffffff,
@@ -482,8 +488,11 @@ function add_screen(username, texture){
   const mask = new Mesh(new_faceGeometry, materials.get(username));
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   scene.add(mask);
-  materials.get(username).map = texture;
-  materials.get(username).needsUpdate = true;
+  
+  load_new_face(origin,username);
+
+  /*materials.get(username).map = texture;
+  materials.get(username).needsUpdate = true; */
 
   if (facemeshes.size>0) {
     //console.log(username);
@@ -500,15 +509,16 @@ function add_screen(username, texture){
 connection.onmessage = function(event) {
       const inbound_facemesh = event.data.inbound_facemesh;
       const username = event.userid;
-      const inbound_texture = event.data.inbound_texture;
-      referenceFaces.set(username,inbound_texture);
+      const inbound_img_origin =event.extra.img_origin
+      //const inbound_texture = event.data.inbound_texture;
+      //referenceFaces.set(username,inbound_texture);
       if (facemeshes.has(username)){
         console.log("attempting to update other facemesh")
         external_faces.set(username,inbound_facemesh)
 
       }else if (!(facemeshes.has(username))){
         console.log("new user");
-        add_screen(username,referenceFaces.get(username).texture);
+        add_screen(username,inbound_img_origin);//referenceFaces.get(username).texture);
       };
       //console.log(facemesh)
 
