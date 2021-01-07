@@ -125,6 +125,7 @@ let referenceFaces = new Map();
 let external_faces = new Map(); // (allows me to only update external faces with most recent face (hopefully))
 let materials = new Map();
 let connected_flag = false;
+let model, modelRef;
 
 // ----------------------------------------
 // Code for initializing data + sound only connection 
@@ -404,14 +405,11 @@ async function getFace(model, texture) {
   return { texture, face: faces[0] };
 }
 
-// We need a separate model because they can't be reused (?).
-let modelRef;
-
 // Init the demo, loading dependencies.
 async function init() {
   await Promise.all([tf.setBackend("webgl"), av.ready()]);
   status.textContent = "Loading model...";
-  let texture, model;
+  let texture;
   [texture, model, modelRef] = await Promise.all([
     loader.loadAsync("../../assets/dnt32.jpg"),
     facemesh.load({ maxFaces: 1 }),
@@ -434,7 +432,7 @@ async function init() {
 async function load_new_face(origin,username) {
   status.textContent = "New Face, New Me"
   let texture = await loader.loadAsync(origin);
-  modelRef = await facemesh.load({ maxFaces: 1 });
+  //modelRef = await facemesh.load({ maxFaces: 1 });
   try {
     referenceFaces.set(username, await getFace(modelRef, texture));
   } catch (e) {
@@ -457,7 +455,7 @@ async function dropHandler(ev) {
     for (let item of ev.dataTransfer.items) {
       if (item.kind === "file") {
         var file = item.getAsFile();
-        modelRef = await facemesh.load({ maxFaces: 1 });
+        //modelRef = await facemesh.load({ maxFaces: 1 });
         const url = URL.createObjectURL(file);
         let texture = await loader.loadAsync(url);
         try {
