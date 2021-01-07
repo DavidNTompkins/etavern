@@ -163,6 +163,7 @@ connection.onExtraDataUpdated = function(event) {
     var new_origin = event.extra.img_origin;
     var whoModified = event.userid; // or event.extra.fullName
     load_new_face(new_origin,whoModified);
+    console.log("New Face received")
 };
 
 
