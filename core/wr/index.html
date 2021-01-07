@@ -494,12 +494,13 @@ function add_screen(username, origin){
   } */
   // a lot of this comes from the FaceMeshFaceGeometry face transfer example
   const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
+  load_new_face(origin,username);
   const mask = new Mesh(new_faceGeometry, materials.get(username));
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   scene.add(mask);
   /*materials.get(username).map = texture;
   materials.get(username).needsUpdate = true; */
-  load_new_face(origin,username);
+  
 
   if (facemeshes.size>0) {
     //console.log(username);
