@@ -438,7 +438,7 @@ async function load_new_face(origin,username) {
   //let texture = await loader.loadAsync(origin);
   //modelRef = await facemesh.load({ maxFaces: 1 });
   try {
-    await let temp_ref_face = await getFace(modelRef, await loader.loadAsync(origin));
+    let temp_ref_face = await getFace(modelRef, await loader.loadAsync(origin));
     referenceFaces.set(username, temp_ref_face));
   } catch (e) {
     status.textContent = "Try a different image, or check your link"
