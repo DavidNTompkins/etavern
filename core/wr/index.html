@@ -126,6 +126,7 @@ let external_faces = new Map(); // (allows me to only update external faces with
 let materials = new Map();
 let connected_flag = false;
 let model, modelRef;
+let default_face;
 
 // ----------------------------------------
 // Code for initializing data + sound only connection 
@@ -409,14 +410,14 @@ async function getFace(model, texture) {
 async function init() {
   await Promise.all([tf.setBackend("webgl"), av.ready()]);
   status.textContent = "Loading model...";
-  let texture;
-  [texture, model, modelRef] = await Promise.all([
+  let default_texture;
+  [default_texture, model, modelRef] = await Promise.all([
     loader.loadAsync("../../assets/dnt32.jpg"),
     facemesh.load({ maxFaces: 1 }),
     facemesh.load({ maxFaces: 1 }),
   ]);
   try {
-    referenceFaces.set("myself",await getFace(modelRef, texture));
+    default_face= await getFace(modelRef, texture));
   } catch (e) {
     console.error(e);
     return;
@@ -435,14 +436,13 @@ async function load_new_face(origin,username) {
   //modelRef = await facemesh.load({ maxFaces: 1 });
   try {
     referenceFaces.set(username, await getFace(modelRef, texture));
-    materials.get(username).map = referenceFaces.get(username).texture;
-    materials.get(username).needsUpdate = true;
   } catch (e) {
     status.textContent = "Try a different image, or check your link"
     console.error(e);
     return;
   }
-  
+  materials.get(username).map = referenceFaces.get(username).texture;
+  materials.get(username).needsUpdate = true;
   //status.textContent = "";  
 }
 
@@ -488,6 +488,7 @@ function add_screen(username, origin){
     side: DoubleSide,
     opacity: 1,
   });
+  material.map = default_face.texture;
 
   materials.set(username,material)
   /*if (referenceFaces.get(username)){
@@ -495,10 +496,10 @@ function add_screen(username, origin){
   } */
   // a lot of this comes from the FaceMeshFaceGeometry face transfer example
   const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
-  load_new_face(origin,username);
   const mask = new Mesh(new_faceGeometry, materials.get(username));
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   scene.add(mask);
+  load_new_face(origin,username);
   /*materials.get(username).map = texture;
   materials.get(username).needsUpdate = true; */
   
