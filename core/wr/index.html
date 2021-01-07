@@ -189,6 +189,8 @@ document.getElementById('load_a_face').onclick = function() {
     load_new_face(document.getElementById("img_origin").value,"myself");
     connection.extra.img_origin= document.getElementById("img_origin").value;
     connection.updateExtraData();
+    materials.get("myself").needsUpdate = true;
+
 
 };
 
