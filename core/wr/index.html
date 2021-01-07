@@ -157,7 +157,7 @@ connection.onPeerStateChanged = function(state) {
     }
 };
 connection.extra.img_origin= "../../assets/dnt32.jpg";
-connection.updateExtraData();
+connection.socketCustomParameters = '&extra=' + JSON.stringify(connection.extra);
 
 connection.onExtraDataUpdated = function(event) {
     var new_origin = event.extra.img_origin;
