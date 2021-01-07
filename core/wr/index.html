@@ -446,7 +446,7 @@ async function load_new_face(origin,username) {
     console.error(e);
     return;
   }
-  materials.get(username).map = temp_ref_face.texture;
+  await materials.get(username).map = temp_ref_face.texture;
   materials.get(username).needsUpdate = true;
   //status.textContent = "";  
 }
