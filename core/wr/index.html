@@ -425,7 +425,7 @@ async function init() {
   }
   //material.map = referenceFace.texture;
   status.textContent = "Detecting face...";
-  add_screen("myself","../../assets/dnt32.jpg");//referenceFaces.get("myself").texture);
+  (add_screen"myself","../../assets/dnt32.jpg");//referenceFaces.get("myself").texture);
   await render(model);
   status.textContent = "Drop an image into the page.";
 
@@ -491,13 +491,14 @@ function add_screen(username, origin){
   });
 
   materials.set(username,material)
+  load_new_face(origin,username);
   // a lot of this comes from the FaceMeshFaceGeometry face transfer example
   const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
   const mask = new Mesh(new_faceGeometry, materials.get(username));
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   scene.add(mask);
   
-  load_new_face(origin,username);
+  
 
   /*materials.get(username).map = texture;
   materials.get(username).needsUpdate = true; */
