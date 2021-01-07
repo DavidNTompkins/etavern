@@ -488,9 +488,11 @@ function add_screen(username, origin){
     side: DoubleSide,
     opacity: 1,
   });
-  material.map = default_face.texture;
+  referenceFaces.set(username,default_face); 
 
-  materials.set(username,material)
+  materials.set(username,material);
+  materials.get(username).map = referenceFaces.get(username).texture;
+
   /*if (referenceFaces.get(username)){
     materials.get(username).map = referenceFaces.get(username).texture;
   } */
