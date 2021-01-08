@@ -186,11 +186,9 @@ document.getElementById('btn-join-room').onclick = function() {
     connection.join( predefinedRoomId );
 };
 document.getElementById('load_a_face').onclick = async function() {
-    await load_new_face(document.getElementById("img_origin").value,"myself");
+    load_new_face(document.getElementById("img_origin").value,"myself");
     connection.extra.img_origin= document.getElementById("img_origin").value;
     connection.updateExtraData();
-    materials.get("myself").map = referenceFaces.get("myself").texture;
-    materials.get("myself").needsUpdate = true;
 
 
 };
@@ -450,7 +448,7 @@ async function load_new_face(origin,username) {
     console.error(e);
     return;
   }
-  materials.get(username).map = await temp_ref_face.texture;
+  materials.get(username).map = temp_ref_face.texture;
   materials.get(username).needsUpdate = true;
   //status.textContent = "";  
 }
