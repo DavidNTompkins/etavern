@@ -352,7 +352,9 @@ async function render(model) {
   // There's at least one face.
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
-     if(true){  //was a flag instead
+      console.log("we're in position to send");
+     if(connected_flag){  //was a flag instead
+      console.log("and we sent");
       connection.send({
         //inbound_texture: referenceFaces.get("myself"),
         inbound_facemesh: faces[0]
