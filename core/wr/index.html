@@ -529,12 +529,11 @@ connection.onmessage = function(event) {
       const inbound_facemesh = event.data.inbound_facemesh;
       const username = event.userid;
       const inbound_img_origin =event.extra.img_origin
-      //const inbound_texture = event.data.inbound_texture;
-      //referenceFaces.set(username,inbound_texture);
-      if (facemeshes.has(username)){
+
+      // attempting to update if have the info to do so, but not if we don't
+      if (facemeshes.has(username)&&referenceFaces.has(username)&&materials.has(username)){
         console.log("attempting to update other facemesh")
         external_faces.set(username,inbound_facemesh)
-
       }else if (!(facemeshes.has(username))){
         console.log("new user");
         add_screen(username,inbound_img_origin);//referenceFaces.get(username).texture);
