@@ -125,6 +125,8 @@ let referenceFaces = new Map();
 let external_faces = new Map(); // (allows me to only update external faces with most recent face (hopefully))
 let materials = new Map();
 let connected_flag = false;
+let receive_flag = false; // not currently used, but might be good to implement
+const max_buff = 1; //named poorly, does not refer to me
 let model, modelRef;
 let default_face;
 
@@ -352,8 +354,8 @@ async function render(model) {
   // There's at least one face.
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
-      console.log("we're in position to send");
-     if(connected_flag){  //was a flag instead
+      console.log("connection.bufferedAmount");
+     if(connected_flag&&(connection.bufferedAmount<max_buff)){  //was a flag instead
       console.log("and we sent");
       connection.send({
         //inbound_texture: referenceFaces.get("myself"),
