@@ -354,7 +354,7 @@ async function render(model) {
   // There's at least one face.
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
-      console.log("connection.bufferedAmount");
+      console.log(connection.bufferedAmount);
      if(connected_flag&&(connection.bufferedAmount<max_buff)){  //was a flag instead
       console.log("and we sent");
       connection.send({
