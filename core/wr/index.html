@@ -529,6 +529,7 @@ function add_screen(username, origin){
    
 }
 connection.onleave = function(event) {
+  console.log("QUITTER");
   var exfriend = event.userid;
   facemeshes.get(exfriend).dispose();
   facemeshes.delete(exfriend);
