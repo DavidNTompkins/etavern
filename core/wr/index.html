@@ -359,7 +359,7 @@ async function render(model) {
       console.log("and we sent");
       connection.send({
         //inbound_texture: referenceFaces.get("myself"),
-        inbound_facemesh: faces[0]
+        inbound_facemesh: faces[0].scaledMesh;
      });
     };
     console.log(faces[0])
@@ -367,7 +367,7 @@ async function render(model) {
 
     // Update face mesh geometry with new data. 
     // ---- This one updates the same face
-    facemeshes.get("myself").update(faces[0], flipCamera);
+    facemeshes.get("myself").update(faces[0].scaledMesh, flipCamera);
     for (let entry of external_faces.entries()){
       facemeshes.get(entry[0]).update(entry[1], flipCamera);
     };
