@@ -355,13 +355,13 @@ async function render(model) {
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
       //console.log(connection.bufferedAmount);
-     //if(connected_flag){  //was a flag instead
-    //  console.log("and we sent");
+     if(connected_flag){  //was a flag instead
+      //console.log("and we sent");
       connection.send({
         //inbound_texture: referenceFaces.get("myself"),
         inbound_facemesh: faces[0].scaledMesh
      });
-   // };
+    };
     //console.log(faces[0])
     
 
@@ -540,6 +540,7 @@ connection.onmessage = function(event) {
         //console.log("attempting to update other facemesh")
         external_faces.set(username,inbound_facemesh)
       }else if (!(facemeshes.has(username))){
+        connected_flag= true;
        // console.log("new user");
         add_screen(username,inbound_img_origin);//referenceFaces.get(username).texture);
       };
