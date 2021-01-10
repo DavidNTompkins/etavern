@@ -532,7 +532,8 @@ function add_screen(username, origin){
 connection.onleave = function(event) {
   console.log("QUITTER");
   var exfriend = event.userid;
-  scene.remove(exfriend);
+  var exfriends_face = scene.getObjectByName(exfriend);
+  scene.remove(exfriends_face);
 }
 
 
