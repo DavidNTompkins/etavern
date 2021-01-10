@@ -528,6 +528,15 @@ function add_screen(username, origin){
   //console.log(facemeshes)
    
 }
+connection.onleave = function(event) {
+  var exfriend = event.userid;
+  facemeshes.get(exfriend).dispose();
+  facemeshes.delete(exfriend);
+  referenceFaces.delete(exfriend);
+  materials.delete(exfriend);
+  external_faces.delete(exfriend);
+
+}
 
 
 connection.onmessage = function(event) {
