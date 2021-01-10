@@ -149,10 +149,7 @@ connection.sdpConstraints.mandatory = {
 };
 // This code adds in the audio playback. Should work to make it hidden. 
 connection.onstream = function(event) {
-    
-    //if(event.type !== 'local'){add_screen("temp","yep")}; // added here from onstream.
     document.body.appendChild( event.mediaElement );
-    //Here's where we should begin appending face mesh divs. 
 };
 
 connection.onPeerStateChanged = function(state) {
@@ -164,7 +161,6 @@ connection.extra.img_origin= "../../assets/dnt32.jpg";
 connection.socketCustomParameters = '&extra=' + JSON.stringify(connection.extra);
 
 connection.onExtraDataUpdated = function(event) {
-
   var new_origin = event.extra.img_origin;
   var whoModified = event.userid; // or event.extra.fullName
   if(facemeshes.get(whoModified)){
@@ -173,9 +169,6 @@ connection.onExtraDataUpdated = function(event) {
   };
 };
 
-
-// ----------------------------------------
-// UI logic - needs to change to either generate tavern names or accept existing
 var predefinedRoomId = 'etavern';
 
 document.getElementById('btn-open-room').onclick = function() {
@@ -187,14 +180,12 @@ document.getElementById('btn-join-room').onclick = function() {
     this.disabled = true;
     connection.join( predefinedRoomId );
 };
+
 document.getElementById('load_a_face').onclick = async function() {
     load_new_face(document.getElementById("img_origin").value,"myself");
     connection.extra.img_origin= document.getElementById("img_origin").value;
     connection.updateExtraData();
-
-
 };
-
 
 // ----------------------------------------
 // face generation logic:
@@ -208,7 +199,6 @@ canvas.height = windowHeight;
 
 // Set a background color, or change alpha to false for a solid canvas.
 const renderer = new WebGLRenderer({ antialias: true, alpha: true, canvas });
-// renderer.setClearColor(0x202020);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;
@@ -216,13 +206,6 @@ renderer.outputEncoding = sRGBEncoding;
 
 const scene = new Scene();
 
-// Change to renderer.render(scene, debugCamera); for interactive view.
-/*
-const debugCamera = new PerspectiveCamera(75, 1, 0.1, 1000);
-debugCamera.position.set(300, 300, 300);
-debugCamera.lookAt(scene.position);
-const controls = new OrbitControls(debugCamera, renderer.domElement);
-*/
 let width =0;
 let height = 0;
 const camera = new OrthographicCamera(-0.5*windowWidth, 0.5*windowWidth, 0.5*windowHeight, -0.5*windowHeight, -1000, 1000);
@@ -241,31 +224,12 @@ function resize() {
     canvas.width = width;
     canvas.height = height;
 }
-  /* const videoAspectRatio = width / height;
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-  const windowAspectRatio = windowWidth / windowHeight;
-  let adjustedWidth;
-  let adjustedHeight;
-   if (videoAspectRatio > windowAspectRatio) {
-    adjustedWidth = windowWidth;
-    adjustedHeight = windowWidth / videoAspectRatio;
-  } else {
-    adjustedWidth = windowHeight * videoAspectRatio;
-    adjustedHeight = windowHeight;
-  }
-  renderer.setSize(adjustedWidth, adjustedHeight); 
-  //debugCamera.aspect = videoAspectRatio;
-  //debugCamera.updateProjectionMatrix();
-}
-*/
+  
 window.addEventListener("resize", () => {
   resize();
 }); 
 
 resize();
-
-//renderer.render(scenes[0], camera);
 
 // Create a loader.
 const loader = new TextureLoader();
@@ -278,37 +242,19 @@ const wireframeMaterial = new MeshBasicMaterial({
   opacity: 0.5,
 });
 
-
-/*// Create a new geometry helper.
-const faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
-
-// Create mask mesh.
-const mask = new Mesh(faceGeometry, material);
-scene.add(mask);
-
-mask.receiveShadow = mask.castShadow = true;
-*/
-//mask.position.set(200,200,200); //weirdly does not keep graphics - may need to shift texture as well
-
 // Add lights.
 const spotLight = new SpotLight(0xffffff, 0.5);
 spotLight.position.set(0.5, 0.5, 1);
 spotLight.position.multiplyScalar(400);
 spotLight.angle=(Math.PI/2);
 scene.add(spotLight);
-
 spotLight.castShadow = true;
-
 spotLight.shadow.mapSize.width = 1024;
 spotLight.shadow.mapSize.height = 1024;
-
 spotLight.shadow.camera.near = 200;
 spotLight.shadow.camera.far = 800;
-
 spotLight.shadow.camera.fov = 40;
-
 spotLight.shadow.bias = -0.005;
-
 scene.add(spotLight);
 
 const hemiLight = new HemisphereLight(0xffffbb, 0x080820, 0.25);
@@ -332,20 +278,6 @@ async function render(model) {
   av.video.style.transform = flipCamera ? "scaleX(-1)" : "scaleX(1)";
   av.video.style.display = "none";
 
-  // Resize orthographic camera to video dimensions if necessary.
-  /*if (width !== av.video.videoWidth || height !== av.video.videoHeight) {
-    const w = av.video.videoWidth;
-    const h = av.video.videoHeight;
-    camera.left = -0.5 * w;
-    camera.right = 0.5 * w;
-    camera.top = 0.5 * h;
-    camera.bottom = -0.5 * h;
-    camera.updateProjectionMatrix();
-    width = w;
-    height = h;
-    //resize();
-  } */ //-DT commented this out so that we can hard-set the orthocamera
-
   // Wait for the model to return a face.
   const faces = await model.estimateFaces(av.video, false, flipCamera);
 
@@ -354,15 +286,11 @@ async function render(model) {
   // There's at least one face.
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
-      //console.log(connection.bufferedAmount);
      if(connected_flag){  //was a flag instead
-      //console.log("and we sent");
       connection.send({
-        //inbound_texture: referenceFaces.get("myself"),
         inbound_facemesh: faces[0].scaledMesh
      });
     };
-    //console.log(faces[0])
     
 
     // Update face mesh geometry with new data. 
@@ -371,12 +299,7 @@ async function render(model) {
     for (let entry of external_faces.entries()){
       facemeshes.get(entry[0]).update(entry[1], flipCamera);
     };
-    //facemeshes[0].scale(0.5,0.5,0.5); // DT - this sets size. Needs to be done each frame as object is actually not moving in z, just being resized.
-    
-
-
-    // Use the reference face texture coordinates for this face geometry.
-    //for (let k = 0; k <facemeshes.length; k++) {    
+     
     let k = 0
     for (let entry of referenceFaces.entries()){
       //console.log(k);
@@ -441,8 +364,6 @@ async function init() {
 
 async function load_new_face(origin,username) {
   status.textContent = "New Face, New Me"
-  //let texture = await loader.loadAsync(origin);
-  //modelRef = await facemesh.load({ maxFaces: 1 });
   let temp_ref_face;
   temp_ref_face = await getFace(modelRef, await loader.loadAsync(origin));
   temp_ref_face = await getFace(modelRef, await loader.loadAsync(origin));
@@ -455,7 +376,6 @@ async function load_new_face(origin,username) {
   }
   materials.get(username).map = temp_ref_face.texture;
   materials.get(username).needsUpdate = true;
-  //status.textContent = "";  
 }
 
 
@@ -505,28 +425,19 @@ function add_screen(username, origin){
   materials.set(username,material);
   materials.get(username).map = referenceFaces.get(username).texture;
 
-  /*if (referenceFaces.get(username)){
-    materials.get(username).map = referenceFaces.get(username).texture;
-  } */
   // a lot of this comes from the FaceMeshFaceGeometry face transfer example
   const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
   const mask = new Mesh(new_faceGeometry, materials.get(username));
-  //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
   mask.name = username;
   scene.add(mask);
-  load_new_face(origin,username);
-  /*materials.get(username).map = texture;
-  materials.get(username).needsUpdate = true; */
-  
+  load_new_face(origin,username);  
 
   if (facemeshes.size>0) {
-    //console.log(username);
     new_faceGeometry.setSize(canvas.width,canvas.height);
   }else{
     new_faceGeometry.setSize(canvas.width,canvas.height);
   };
   facemeshes.set(username,new_faceGeometry);
-  //console.log(facemeshes)
    
 }
 connection.onleave = function(event) {
@@ -549,13 +460,8 @@ connection.onmessage = function(event) {
       }else if (!(facemeshes.has(username))){
         connected_flag= true;
        // console.log("new user");
-        add_screen(username,inbound_img_origin);//referenceFaces.get(username).texture);
+        add_screen(username,inbound_img_origin);
       };
-      //console.log(facemesh)
-
-      //facemeshes[1].setSize(windowWidth,windowHeight);
-      //facemeshes[1].scale(0.5,0.5,0.5);
-      //renderer.render(scene, camera); // commenting this out as we dont need the extra render
     };
 
 function dragOverHandler(ev) {
