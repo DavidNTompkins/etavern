@@ -512,6 +512,7 @@ function add_screen(username, origin){
   const new_faceGeometry = new FaceMeshFaceGeometry({normalizeCoords: true});
   const mask = new Mesh(new_faceGeometry, materials.get(username));
   //mask.position.x = mask.position.x +(facemeshes.length*(0.25*window.innerWidth));
+  mask.name = username;
   scene.add(mask);
   load_new_face(origin,username);
   /*materials.get(username).map = texture;
@@ -531,12 +532,7 @@ function add_screen(username, origin){
 connection.onleave = function(event) {
   console.log("QUITTER");
   var exfriend = event.userid;
-  facemeshes.get(exfriend).dispose();
-  facemeshes.delete(exfriend);
-  referenceFaces.delete(exfriend);
-  materials.delete(exfriend);
-  external_faces.delete(exfriend);
-
+  scene.remove(exfriend);
 }
 
 
