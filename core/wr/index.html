@@ -468,11 +468,9 @@ connection.onmessage = function(event) {
   //console.log(event.data);   
   const raw_facemesh = new Float64Array(event.data);//event.data.inbound_facemesh;
  
-  var inbound_facemesh =[];
-  for (var i = 0; i <468; i++) {
-    for (var j=0; i<3; i++) {
-      inbound_facemesh[i][j] =raw_facemesh[(3*i+j)];
-    };
+  let inbound_facemesh =[];
+  for (var i = 0; i <1405; i+3) {
+    inbound_facemesh[i/3] =[raw_facemesh[i],raw_facemesh[i+1],raw_facemesh[i+2]];
   };
   console.log("inbound_facemesh");
   const array_size = 3;
