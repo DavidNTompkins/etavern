@@ -124,6 +124,7 @@ let facemeshes = new Map();
 let referenceFaces = new Map();
 let external_faces = new Map(); // (allows me to only update external faces with most recent face (hopefully))
 let materials = new Map();
+let update_flags = new Map();
 let connected_flag = false;
 let receive_flag = false; // not currently used, but might be good to implement
 const max_buff = 1; //named poorly, does not refer to me
@@ -297,22 +298,24 @@ async function render(model) {
     // ---- This one updates the same face
     facemeshes.get("myself").update(faces[0].scaledMesh, flipCamera);
     for (let entry of external_faces.entries()){
-      facemeshes.get(entry[0]).update(entry[1], flipCamera);
-    };
-     
+      if (update_flags.get(entry[0])) {
+        facemeshes.get(entry[0]).update(entry[1], flipCamera);
+      };
+    }; 
     let k = 0
     for (let entry of referenceFaces.entries()){
-      //console.log(k);
-      for (let j = 0; j < 468; j++) {
-        let x = entry[1].face.scaledMesh[j][0]; // entry[1] was referenceFaces.get(entry[0])under facemeshes iteration
-        let y = entry[1].face.scaledMesh[j][1];
-        facemeshes.get(entry[0]).uvs[j * 2] = x; //value was facemeshes[k]
-        facemeshes.get(entry[0]).uvs[j * 2 + 1] = 1 - y;
+      if (update_flags.get(entry[0])) {
+        for (let j = 0; j < 468; j++) {
+          let x = entry[1].face.scaledMesh[j][0]; // entry[1] was referenceFaces.get(entry[0])under facemeshes iteration
+          let y = entry[1].face.scaledMesh[j][1];
+          facemeshes.get(entry[0]).uvs[j * 2] = x; //value was facemeshes[k]
+          facemeshes.get(entry[0]).uvs[j * 2 + 1] = 1 - y;
+        }
+        facemeshes.get(entry[0]).getAttribute("uv").needsUpdate = true;
+        const x_origin =(0.6-(((k+1)%2)*0.6));
+        const y_origin =(1.4-Math.ceil(0.5*(k+1))*0.5)
+        facemeshes.get(entry[0]).setSize((x_origin*windowWidth), (y_origin*windowHeight)); 
       }
-      facemeshes.get(entry[0]).getAttribute("uv").needsUpdate = true;
-      const x_origin =(0.6-(((k+1)%2)*0.6));
-      const y_origin =(1.4-Math.ceil(0.5*(k+1))*0.5)
-      facemeshes.get(entry[0]).setSize((x_origin*windowWidth), (y_origin*windowHeight)); 
       k+=1;
       };
 }
@@ -456,8 +459,10 @@ connection.onmessage = function(event) {
       // attempting to update if have the info to do so, but not if we don't
       if (facemeshes.has(username)){
         //console.log("attempting to update other facemesh")
-        external_faces.set(username,inbound_facemesh)
+        external_faces.set(username,inbound_facemesh);
+        update_flags.set(username,true);
       }else if (!(facemeshes.has(username))){
+        update_flags.set(username,true);
         connected_flag= true;
        // console.log("new user");
         add_screen(username,inbound_img_origin);
