@@ -294,7 +294,7 @@ async function render(model) {
      if(connected_flag&&send_flag){  //was a flag instead
       //console.log("message sent")
       let typed_array = Float64Array.from(faces[0].scaledMesh.flat());
-      //console.log(typed_array.buffer); //creating a typed array
+      console.log(typed_array.buffer); 
       connection.send(typed_array.buffer); //sending only the arraybuffer
       /*connection.send({
         inbound_facemesh: faces[0].scaledMesh
