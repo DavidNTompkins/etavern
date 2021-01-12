@@ -359,6 +359,7 @@ async function init() {
   }
   //material.map = referenceFace.texture;
   status.textContent = "Detecting face...";
+  update_flags.set("myself",true);
   add_screen("myself","../../assets/dnt32.jpg");//referenceFaces.get("myself").texture);
   await render(model);
   status.textContent = "Drop an image into the page.";
