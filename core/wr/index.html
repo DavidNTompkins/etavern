@@ -293,7 +293,7 @@ async function render(model) {
       // here's where I'm going to try to send data: 
      if(connected_flag&&send_flag){  //was a flag instead
       //console.log("message sent")
-      let typed_array = Float64Array.from(faces[0].scaledMesh);
+      let typed_array = Float64Array.from(faces[0].scaledMesh.flat());
       console.log(typed_array); //creating a typed array
       connection.send(typed_array.buffer); //sending only the arraybuffer
       /*connection.send({
@@ -464,6 +464,7 @@ connection.onleave = function(event) {
 connection.onmessage = function(event) {
   //console.log(event.data);   
   const inbound_facemesh = Array.from(event.data);//event.data.inbound_facemesh;
+  console.log("received");
   const username = event.userid;
   const inbound_img_origin =event.extra.img_origin
   //console.log(username)
