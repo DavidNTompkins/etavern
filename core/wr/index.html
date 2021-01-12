@@ -130,6 +130,8 @@ let receive_flag = false; // not currently used, but might be good to implement
 const max_buff = 1; //named poorly, does not refer to me
 let model, modelRef;
 let default_face;
+const min_send_period = 100 // ms - min time before resending a face item
+let send_flag = false;
 
 // ----------------------------------------
 // Code for initializing data + sound only connection 
@@ -187,6 +189,8 @@ document.getElementById('load_a_face').onclick = async function() {
     connection.extra.img_origin= document.getElementById("img_origin").value;
     connection.updateExtraData();
 };
+
+setInterval(() => send_flag=true, min_send_period);
 
 // ----------------------------------------
 // face generation logic:
@@ -287,11 +291,12 @@ async function render(model) {
   // There's at least one face.
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
-     if(connected_flag){  //was a flag instead
+     if(connected_flag&&send_flag){  //was a flag instead
       console.log("message sent")
       connection.send({
         inbound_facemesh: faces[0].scaledMesh
      });
+      send_flag=false;
     };
     
 
