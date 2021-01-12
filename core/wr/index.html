@@ -294,7 +294,7 @@ async function render(model) {
      if(connected_flag&&send_flag){  //was a flag instead
       //console.log("message sent")
       let typed_array = Float64Array.from(faces[0].scaledMesh.flat());
-      console.log(typed_array); //creating a typed array
+      //console.log(typed_array.buffer); //creating a typed array
       connection.send(typed_array.buffer); //sending only the arraybuffer
       /*connection.send({
         inbound_facemesh: faces[0].scaledMesh
@@ -463,8 +463,12 @@ connection.onleave = function(event) {
 
 connection.onmessage = function(event) {
   //console.log(event.data);   
-  const inbound_facemesh = Array.from(event.data);//event.data.inbound_facemesh;
-  console.log("received");
+  const raw_facemesh = new Float64Array(event.data);//event.data.inbound_facemesh;
+  console.log(raw_facemesh)
+  var incoming_facemesh =[];
+  const array_size = 3;
+ // while ()
+  //console.log("received");
   const username = event.userid;
   const inbound_img_origin =event.extra.img_origin
   //console.log(username)
