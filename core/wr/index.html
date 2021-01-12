@@ -155,6 +155,8 @@ connection.onstream = function(event) {
     document.body.appendChild( event.mediaElement );
 };
 
+connection.enableFileSharing = true; // we're not sending files, but the facemesh is an arraybuffer and gets caught on the same flag.
+
 connection.onPeerStateChanged = function(state) {
     if (state.iceConnectionState=='connected') {
       connected_flag = true;
