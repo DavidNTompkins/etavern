@@ -288,6 +288,7 @@ async function render(model) {
   if (faces.length > 0) {
       // here's where I'm going to try to send data: 
      if(connected_flag){  //was a flag instead
+      console.log("message sent")
       connection.send({
         inbound_facemesh: faces[0].scaledMesh
      });
@@ -456,7 +457,7 @@ connection.onmessage = function(event) {
       const inbound_facemesh = event.data.inbound_facemesh;
       const username = event.userid;
       const inbound_img_origin =event.extra.img_origin
-
+      console.log(username)
       // attempting to update if have the info to do so, but not if we don't
       if (facemeshes.has(username)){
         //console.log("attempting to update other facemesh")
@@ -465,7 +466,7 @@ connection.onmessage = function(event) {
       }else if (!(facemeshes.has(username))){
         update_flags.set(username,true);
         connected_flag= true;
-       // console.log("new user");
+       console.log("new user");
         add_screen(username,inbound_img_origin);
       };
     };
