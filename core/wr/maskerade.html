@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maskerade</title>
+    <style>
+      html {
+        background-image:url('../../assets/purple_congruent_outline.png'); /* Background pattern from Toptal Subtle Patterns, with colorized edit */
+        background-repeat: repeat;
+      }
+      body {
+        height:100vh;
+        width: 100vw;
+      }
+      #emptyblock{
+        height:12.5vh;
+      }
+      #main {
+        background-color: rgba(0,255,127,0.5);
+        margin:auto;
+        margin-top:auto;
+        border-radius: 40px;
+        height: 75vh;
+        width: 85vw;
+        box-shadow:20px 20px 50px yellow; 
+        margin: auto;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        font-size: 64px;
+        color: #FFFFFF;
+        text-shadow: 0 0 5px #FFF, 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+      }
+      #welcome {
+      /* had css here, moved it to main */
+      }
+      #content {
+
+      }
+      .col {
+        padding-top: 3%;
+        color: yellow;
+        float: left;
+        width: 33.33%;
+        font-size: 48px;        
+      }
+       .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      #face_icon{
+        padding-top: 10%;
+        width: 30%;        
+      }
+      button {
+        background-color: purple;
+        border: none;
+        color: gold;
+        padding: 15px 32px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 8px;
+        opacity: .95;
+        box-shadow: 0px 0px 3px yellow;
+        outline: none;
+      }
+      button:hover {
+        box-shadow: 0px 0px 15px yellow; 
+      }
+      button:active {
+      box-shadow: 0px 0px 100px yellow; 
+      transform: translateY(4px);
+      }
+      .table {
+        font-size: 24px;
+        margin:auto;
+        padding-top:20px;
+      }
+      .form-group{
+        font-size: 24px;
+        text-align: right;
+        padding-right: 20%;
+        padding-top: 10%;
+      }
+      .btn-primary{
+        margin-left:20%;
+        font-weight: bold;
+        background-color:purple;
+        color:gold;
+
+
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="emptyblock"></div>
+    <div id="main">
+      <div id="welcome">Welcome to the party</div>
+      <div id="content" class="row">
+        <div class="col">
+          Join a party <br>
+           <section>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Room</th>
+                  <th>Topic</th>
+                  <th>Members</th>
+                  <th>Join</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rooms-list"><tr><td colspan=9>No one's here. Start a party.</td></tr></tbody>
+            </table>
+          </section> 
+        </div>
+        <div class="col">
+          This is you.
+          <br>
+          <img id="face_icon" src="../../assets/dnt_icon.png">
+          <br>
+          <button id="notme">Try again</button> 
+        </div>
+        <div class="col">Start a party
+          <br>
+          <div class="new_room_body" style="padding-bottom: 0;">
+          <form>
+            <div class="form-group">
+              <p>
+                <label for="txt-user-name" class="col-form-label">Room Name</label>
+                <input type="text" class="form-control" id="txt-user-name">
+              </p>
+
+              <p>
+                <label for="txt-room-password" class="col-form-label">Topic:</label>
+                <input type="text" class="form-control" id="txt-room-password">
+              </p>
+              <p class="more-options">
+                <label class="col-form-label"><input type="checkbox" id="chk-room-password"> Private party?</label> <br>
+                
+              </p>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-create-room">Create</button>
+          </form>
+        </div>
+        </div>
+      </div>
+    </div>
+
+
+  </body>
+
+</html>
