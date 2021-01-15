@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>Maskerade</title>
+    <script src="../../js/jquery-3.5.1.slim.min.js"></script>
+    <script src="../../js/popper.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+    <script src="../../js/RTCMultiConnection.min.js"></script>
     <style>
       html {
         background-image:url('../../assets/purple_congruent_outline.png'); /* Background pattern from Toptal Subtle Patterns, with colorized edit */
@@ -15,7 +20,7 @@
         height:8%;
       }
       #main {
-        background-color: rgba(0,255,127,0.5);
+        background-color: rgba(255,0,255,0.5);
         margin:auto;
         margin-top:auto;
         border-radius: 40px;
@@ -111,16 +116,14 @@
                   <th>Topic</th>
                   <th>Members</th>
                   <th>Join</th>
-                  <th></th>
-                  <th></th>
                 </tr>
               </thead>
-              <tbody id="rooms-list"><tr><td colspan=9>No one's here. Start a party.</td></tr></tbody>
+              <tbody id="rooms-list"><tr><td colspan=7>No one's here. Start a party.</td></tr></tbody>
             </table>
           </section> 
         </div>
         <div class="col">
-          This is you.
+          This is you
           <br>
           <img id="face_icon" src="../../assets/dnt_icon.png">
           <br>
@@ -151,7 +154,328 @@
         </div>
       </div>
     </div>
+    <!-- add in FAQ, etc. here -->
+    <script>
+      //base for this script taken from Muaz Khan's dashboard example. Check out his work - it's so cool.
+      var publicRoomIdentifier = 'maskerade';
 
+      var connection = new RTCMultiConnection();
+
+      connection.socketURL = '/';
+      // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+      /// make this room public
+      connection.publicRoomIdentifier = publicRoomIdentifier;
+      connection.socketMessageEvent = publicRoomIdentifier;
+
+      // keep room opened even if owner leaves
+      connection.autoCloseEntireSession = true;
+
+      connection.connectSocket(function(socket) {
+          looper();
+
+          socket.on('disconnect', function() {
+              location.reload();
+          });
+      });
+      //DT - IT this gets a list of rooms based on the public identifier
+      function looper() {
+          if (!$('#rooms-list').length) return;
+          connection.socket.emit('get-public-rooms', publicRoomIdentifier, function(listOfRooms) {
+              updateListOfRooms(listOfRooms);
+
+              setTimeout(looper, 3000);
+          });
+      }
+      //DT - IT this updates the table of rooms
+      function updateListOfRooms(rooms) {
+          $('#active-rooms').html(rooms.length);
+
+          $('#rooms-list').html('');
+
+          if (!rooms.length) { // This is for if there is no active rooms
+              $('#rooms-list').html('<tr><td colspan=9>No one is here. Start a room.</td></tr>');
+              return;
+          }
+          //DT - IT this adds a row for each room
+          rooms.forEach(function(room, idx) {
+              var tr = document.createElement('tr');
+              var html = '';
+              //if(!room.isPasswordProtected) { //adds locked symbol - don't need
+                html += '<td>' + (idx + 1) + '</td>';
+              //}
+              /*else {
+                html += '<td>' + (idx + 1) + ' <img src="https://www.webrtc-experiment.com/images/password-protected.png" style="height: 15px; vertical-align: middle;" title="Password Protected Room"></td>';
+              } // end of lockblock */
+
+              html += '<td><span class="max-width" title="' + room.sessionid + '">' + room.sessionid + '</span></td>'; //Name of room
+
+              /*html += '<td><span class="max-width" title="' + room.owner + '">' + room.owner + '</span></td>'; // Owner - don't need */
+
+              /*html += '<td>'; // -------------
+              Object.keys(room.session || {}).forEach(function(key) {
+                  html += '<pre><b>' + key + ':</b> ' + room.session[key] + '</pre>';
+              }); 
+              html += '</td>'; //------- ^This block adds session info - not needed */
+
+              html += '<td><span class="max-width" title="' +room.extra.topic+ '">' +room.extra.topic +'</span></td>';// + JSON.stringify(room.extra || {}).replace(/"/g, '`') + '">' + JSON.stringify(room.extra || {}) + '</span></td>'; // extra data - Need to pull out room topic (think )
+
+              html += '<td><span class="occupancy" title="' + room.participants.length +'/' +room.maxParticipantsAllowed + '">' + room.participants.length +'/' +room.maxParticipantsAllowed + '</span></td>';
+
+              /*html += '<td>'; // -----
+              room.participants.forEach(function(pid) {
+                  html += '<span class="userinfo"><span class="max-width" title="' + pid + '">' + pid + '</span></span><br>';
+              });
+              html += '</td>'; // ------- ^adds participants - need to pull out count (participants.length?) */
+
+              // check if room is full - should change to hide row/move to bottom
+              if(room.isRoomFull) {
+                // room.participants.length >= room.maxParticipantsAllowed
+                html += '<td><span style="border-bottom: 1px dotted red; color: red;">Room is full</span></td>';
+              }
+              else {
+                html += '<td><button class="btn join-room" data-roomid="' + room.sessionid + '" data-password-protected="' + (room.isPasswordProtected === true ? 'true' : 'false') +'">Join</button></td>';
+              }
+              
+              $(tr).html(html);
+              $('#rooms-list').append(tr);// - could I arrange appending to append full at bottom? - wouldn't solve ordering.
+
+              // This seems to pass the info to the joining function. Much here to cut.
+              $(tr).find('.join-room').click(function() {
+                  $(tr).find('.join-room').prop('disabled', true);
+
+                  var roomid = $(this).attr('data-roomid');
+                  $('#txt-roomid-hidden').val(roomid);
+
+                  $('#btn-show-join-hidden-room').click();
+
+                  if($(this).attr('data-password-protected') === 'true') {
+                    $('#txt-room-password-hidden').parent().show();
+                  }
+                  else {
+                    $('#txt-room-password-hidden').parent().hide();
+                  }
+
+                  $(tr).find('.join-room').prop('disabled', false);
+              });
+          });
+      }
+      //
+      $('#btn-show-join-hidden-room').click(function(e) {
+        e.preventDefault();
+        $('#txt-room-password-hidden').parent().hide();
+        $('#joinRoomModel').modal('show');
+      });
+      // unlikely to need this next chunk -is for joining by name
+      /*
+      $('#btn-join-hidden-room').click(function() {
+          var roomid = $('#txt-roomid-hidden').val().toString();
+          if (!roomid || !roomid.replace(/ /g, '').length) {
+              alertBox('Please enter room-id.', 'Room ID Is Required');
+              return;
+          }
+
+          var fullName = $('#txt-user-name-hidden').val().toString();
+          if (!fullName || !fullName.replace(/ /g, '').length) {
+              alertBox('Please enter your name.', 'Your Name Is Required');
+              return;
+          }
+
+          connection.extra.userFullName = fullName;
+
+          if($('#txt-room-password-hidden').parent().css('display') !== 'none') {
+            var roomPassword = $('#txt-room-password-hidden').val().toString();
+            if (!roomPassword || !roomPassword.replace(/ /g, '').length) {
+                alertBox('Please enter room password.', 'Password Box Is Empty');
+                return;
+            }
+            connection.password = roomPassword;
+
+            connection.socket.emit('is-valid-password', connection.password, roomid, function(isValidPassword, roomid, error) {
+              if(isValidPassword === true) {
+                joinAHiddenRoom(roomid);
+              }
+              else {
+                alertBox(error, 'Password Issue');
+              }
+            });
+            return;
+          }
+
+          joinAHiddenRoom(roomid);
+      });
+      */
+     /* function joinAHiddenRoom(roomid) {
+          var initialHTML = $('#btn-join-hidden-room').html();
+
+          $('#btn-join-hidden-room').html('Please wait...').prop('disabled', true);
+
+          connection.checkPresence(roomid, function(isRoomExist) {
+              if (isRoomExist === false) {
+                  alertBox('No such room exist on this server. Room-id: ' + roomid, 'Room Not Found');
+                  $('#btn-join-hidden-room').html(initialHTML).prop('disabled', false);
+                  return;
+              }
+
+              connection.sessionid = roomid;
+              connection.isInitiator = false;
+              $('#joinRoomModel').modal('hide');
+              openCanvasDesigner();
+
+              $('#btn-join-hidden-room').html(initialHTML).prop('disabled', false);
+          })
+      } */
+        //need to incorporate 
+      function openCanvasDesigner() {
+          $('#startRoomModel').modal('hide');
+          var href = location.href + 'canvas-designer.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier + '&userFullName=' + connection.extra.userFullName;
+          
+          if(!!connection.password) {
+            href += '&password=' + connection.password;
+          }
+
+          var newWin = window.open(href);
+          if (!newWin || newWin.closed || typeof newWin.closed == 'undefined') {
+              var html = '';
+              html += '<p>Please click following link:</p>';
+              html += '<p><a href="' + href + '" target="_blank">';
+              if(connection.isInitiator) {
+                html += 'Click To Open The Room';
+              }
+              else {
+                html += 'Click To Join The Room';
+              }
+              html += '</a></p>';
+              alertBox(html, 'Popups Are Blocked');
+          }
+      }
+
+      function alertBox(message, title, specialMessage, callback) {
+          callback = callback || function() {};
+
+          $('.btn-alert-close').unbind('click').bind('click', function(e) {
+              e.preventDefault();
+              $('#alert-box').modal('hide');
+              $('#confirm-box-topper').hide();
+
+              callback();
+          });
+
+          $('#alert-title').html(title || 'Alert');
+          $('#alert-special').html(specialMessage || '');
+          $('#alert-message').html(message);
+          $('#confirm-box-topper').show();
+
+          $('#alert-box').modal({
+              backdrop: 'static',
+              keyboard: false
+          });
+      }
+        //not sure ill need this
+      function confirmBox(message, callback) {
+          $('#btn-confirm-action').html('Confirm').unbind('click').bind('click', function(e) {
+              e.preventDefault();
+              $('#confirm-box').modal('hide');
+              $('#confirm-box-topper').hide();
+              callback(true);
+          });
+
+          $('#btn-confirm-close').html('Cancel');
+
+          $('.btn-confirm-close').unbind('click').bind('click', function(e) {
+              e.preventDefault();
+              $('#confirm-box').modal('hide');
+              $('#confirm-box-topper').hide();
+              callback(false);
+          });
+
+          $('#confirm-message').html(message);
+          $('#confirm-title').html('Please Confirm');
+          $('#confirm-box-topper').show();
+
+          $('#confirm-box').modal({
+              backdrop: 'static',
+              keyboard: false
+          });
+      }
+      //need this
+      $('#btn-create-room').click(function() {
+          var roomid = $('#txt-roomid').val().toString();
+          if (!roomid || !roomid.replace(/ /g, '').length) {
+              alertBox('Please enter room-id.', 'Room ID Is Required');
+              return;
+          }
+
+          var fullName = $('#txt-user-name').val().toString();
+          if (!fullName || !fullName.replace(/ /g, '').length) {
+              alertBox('Please enter your name.', 'Your Name Is Required');
+              return;
+          }
+
+          connection.extra.userFullName = fullName;
+
+          if($('#chk-room-password').prop('checked') === true){
+            var roomPassword = $('#txt-room-password').val().toString();
+            if (!roomPassword || !roomPassword.replace(/ /g, '').length) {
+                alertBox('Please enter room password.', 'Password Box Is Empty');
+                return;
+            }
+            //probably can drop
+            connection.password = roomPassword;
+          }    
+
+          var initialHTML = $('#btn-create-room').html();
+
+          $('#btn-create-room').html('Please wait...').prop('disabled', true);
+
+          connection.checkPresence(roomid, function(isRoomExist) {
+              if (isRoomExist === true) {
+                  alertBox('That name is taken. Try again or join it.', 'Room ID In Use');
+                  return;
+              }
+
+              if ($('#chk-hidden-room').prop('checked') === true) {
+                  // either make it unique!
+                  // connection.publicRoomIdentifier = connection.token() + connection.token();
+
+                  // or set an empty value (recommended)
+                  connection.publicRoomIdentifier = '';
+              }
+
+              connection.sessionid = roomid;
+              connection.isInitiator = true;
+              openCanvasDesigner();
+              $('#btn-create-room').html(initialHTML).prop('disabled', false);
+          });
+      });
+
+      $('#chk-room-password').change(function() {
+        $('#txt-room-password').parent().css('display', this.checked === true ? 'block' : 'none');
+        $('#txt-room-password').focus();
+      });
+
+      var txtRoomId = document.getElementById('txt-roomid');
+
+      txtRoomId.onkeyup = txtRoomId.onblur = txtRoomId.oninput = txtRoomId.onpaste = function() {
+          localStorage.setItem('canvas-designer-roomid', txtRoomId.value);
+      };
+
+      if (localStorage.getItem('canvas-designer-roomid')) {
+          txtRoomId.value = localStorage.getItem('canvas-designer-roomid');
+          $('#txt-roomid-hidden').val(txtRoomId.value);
+      }
+
+      var userFullName = document.getElementById('txt-user-name');
+
+      userFullName.onkeyup = userFullName.onblur = userFullName.oninput = userFullName.onpaste = function() {
+          localStorage.setItem('canvas-designer-user-full-name', userFullName.value);
+      };
+
+      if (localStorage.getItem('canvas-designer-user-full-name')) {
+          userFullName.value = localStorage.getItem('canvas-designer-user-full-name');
+          $('#txt-user-name-hidden').val(userFullName.value);
+      }
+    </script>
 
   </body>
 
