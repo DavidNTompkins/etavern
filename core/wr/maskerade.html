@@ -161,8 +161,8 @@
 
       var connection = new RTCMultiConnection();
 
-      connection.socketURL = '/';
-      // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+      //connection.socketURL = '/';
+      connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; // temp provided by Mr. Khan's service, need to swap in my own
 
       /// make this room public
       connection.publicRoomIdentifier = publicRoomIdentifier;
@@ -218,7 +218,7 @@
               }); 
               html += '</td>'; //------- ^This block adds session info - not needed */
 
-              html += '<td><span class="max-width" title="' +room.extra.topic+ '">' +room.extra.topic +'</span></td>';// + JSON.stringify(room.extra || {}).replace(/"/g, '`') + '">' + JSON.stringify(room.extra || {}) + '</span></td>'; // extra data - Need to pull out room topic (think )
+              html += '<td><span class="max-width" title="' +room.extra.txtRoomTopic+ '">' +room.extra.txtRoomTopic +'</span></td>';// + JSON.stringify(room.extra || {}).replace(/"/g, '`') + '">' + JSON.stringify(room.extra || {}) + '</span></td>'; // extra data - Need to pull out room topic (think )
 
               html += '<td><span class="occupancy" title="' + room.participants.length +'/' +room.maxParticipantsAllowed + '">' + room.participants.length +'/' +room.maxParticipantsAllowed + '</span></td>';
 
