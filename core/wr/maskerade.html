@@ -135,12 +135,12 @@
           <form>
             <div class="form-group">
               <p>
-                <label for="txt-user-name" class="col-form-label">Room Name</label>
+                <label for="txt-roomid" class="col-form-label">Room Name</label>
                 <input type="text" class="form-control" id="txt-user-name">
               </p>
 
               <p>
-                <label for="txt-room-password" class="col-form-label">Topic:</label>
+                <label for="txt-room-topic" class="col-form-label">Topic:</label>
                 <input type="text" class="form-control" id="txt-room-password">
               </p>
               <p class="more-options">
@@ -234,7 +234,7 @@
                 html += '<td><span style="border-bottom: 1px dotted red; color: red;">Room is full</span></td>';
               }
               else {
-                html += '<td><button class="btn join-room" data-roomid="' + room.sessionid + '" data-password-protected="' + (room.isPasswordProtected === true ? 'true' : 'false') +'">Join</button></td>';
+                html += '<td><button class="btn join-room" data-roomid="' + room.sessionid +'">Join</button></td>';
               }
               
               $(tr).html(html);
@@ -249,23 +249,23 @@
 
                   $('#btn-show-join-hidden-room').click();
 
-                  if($(this).attr('data-password-protected') === 'true') {
+                  /*if($(this).attr('data-password-protected') === 'true') {
                     $('#txt-room-password-hidden').parent().show();
                   }
-                  else {
-                    $('#txt-room-password-hidden').parent().hide();
-                  }
+                  else {*/
+                  $('#txt-room-password-hidden').parent().hide();
+                  //}
 
                   $(tr).find('.join-room').prop('disabled', false);
               });
           });
       }
       //
-      $('#btn-show-join-hidden-room').click(function(e) {
+      /*$('#btn-show-join-hidden-room').click(function(e) {
         e.preventDefault();
         $('#txt-room-password-hidden').parent().hide();
         $('#joinRoomModel').modal('show');
-      });
+      }); */
       // unlikely to need this next chunk -is for joining by name
       /*
       $('#btn-join-hidden-room').click(function() {
@@ -325,14 +325,14 @@
               $('#btn-join-hidden-room').html(initialHTML).prop('disabled', false);
           })
       } */
-        //need to incorporate 
+        //need to incorporate on main page 
       function openCanvasDesigner() {
-          $('#startRoomModel').modal('hide');
-          var href = location.href + 'canvas-designer.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier + '&userFullName=' + connection.extra.userFullName;
+          $('#startRoomModel').modal('hide'); // appears to be: Openorjoin + room name + (DROPPED)-key for mainpage +user name. 
+          var href = location.href + 'index.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier;
           
-          if(!!connection.password) {
+          /*if(!!connection.password) {
             href += '&password=' + connection.password;
-          }
+          }*/
 
           var newWin = window.open(href);
           if (!newWin || newWin.closed || typeof newWin.closed == 'undefined') {
@@ -406,13 +406,13 @@
               return;
           }
 
-          var fullName = $('#txt-user-name').val().toString();
-          if (!fullName || !fullName.replace(/ /g, '').length) {
+          var roomtopic = $('#txt-room-topic').val().toString();
+          if (!roomtopic || !roomtopic.replace(/ /g, '').length) {
               alertBox('Please enter your name.', 'Your Name Is Required');
               return;
           }
 
-          connection.extra.userFullName = fullName;
+          connection.extra.txtRoomTopic = roomtopic;
 
           if($('#chk-room-password').prop('checked') === true){
             var roomPassword = $('#txt-room-password').val().toString();
@@ -465,15 +465,15 @@
           $('#txt-roomid-hidden').val(txtRoomId.value);
       }
 
-      var userFullName = document.getElementById('txt-user-name');
+      var txtRoomTopic = document.getElementById('txt-room-topic');
 
-      userFullName.onkeyup = userFullName.onblur = userFullName.oninput = userFullName.onpaste = function() {
-          localStorage.setItem('canvas-designer-user-full-name', userFullName.value);
+      txtRoomTopic.onkeyup = txtRoomTopic.onblur = txtRoomTopic.oninput = txtRoomTopic.onpaste = function() {
+          localStorage.setItem('canvas-designer-user-full-name', txtRoomTopic.value);
       };
 
       if (localStorage.getItem('canvas-designer-user-full-name')) {
-          userFullName.value = localStorage.getItem('canvas-designer-user-full-name');
-          $('#txt-user-name-hidden').val(userFullName.value);
+          txtRoomTopic.value = localStorage.getItem('canvas-designer-user-full-name');
+          $('#txt-user-name-hidden').val(txtRoomTopic.value);
       }
     </script>
 
