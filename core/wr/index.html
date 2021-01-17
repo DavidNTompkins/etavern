@@ -328,7 +328,7 @@
         //need to incorporate on main page 
       function openCanvasDesigner() {
           $('#startRoomModel').modal('hide'); // appears to be: Openorjoin + room name + (DROPPED)-key for mainpage +user name. 
-          var href = location.href + 'maskerade.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier +'$roomtopic=' +connection.extra.txtRoomTopic;
+          var href = location.href + 'maskerade.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier +'&roomtopic=' +connection.extra.txtRoomTopic;
           
           /*if(!!connection.password) {
             href += '&password=' + connection.password;
