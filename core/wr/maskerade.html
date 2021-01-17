@@ -136,6 +136,31 @@ const min_send_period = 50 // ms - min time before resending a face item
 let send_flag = false;
 
 // ----------------------------------------
+// introducing code used for building room params off of url.
+(function() {
+    var params = {},
+        r = /([^&=]+)=?([^&]*)/g;
+
+    function d(s) {
+        return decodeURIComponent(s.replace(/\+/g, ' '));
+    }
+    var match, search = window.location.search;
+    while (match = r.exec(search.substring(1)))
+        params[d(match[1])] = d(match[2]);
+    window.params = params;
+})();
+
+//connection.extra.userFullName = params.userFullName;
+/// make this room public
+connection.publicRoomIdentifier = params.publicRoomIdentifier;
+//unclear what this does? anything?
+connection.socketMessageEvent = 'maskerade';
+// keep room opened even if owner leaves
+connection.autoCloseEntireSession = true;
+// https://www.rtcmulticonnection.org/docs/maxParticipantsAllowed/
+connection.maxParticipantsAllowed = 6;
+connection.extra.txtRoomTopic = params.roomtopic;
+
 // Code for initializing data + sound only connection 
 var connection = new RTCMultiConnection();
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; //should look into getting my own
@@ -177,6 +202,12 @@ connection.onExtraDataUpdated = function(event) {
 };
 
 var predefinedRoomId = 'etavern';
+
+if (params.open === true || params.open === 'true') {
+  connection.open(params.sessionid);
+}else{
+  connection.join(params.sessionid);
+  }
 
 document.getElementById('btn-open-room').onclick = function() {
     this.disabled = true;
@@ -354,7 +385,7 @@ async function getFace(model, texture) {
   return { texture, face: faces[0] };
 }
 
-// Init the demo, loading dependencies.
+// running this on load-in
 async function init() {
   await Promise.all([tf.setBackend("webgl"), av.ready()]);
   status.textContent = "Loading model... hold on...";
