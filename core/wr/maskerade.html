@@ -141,7 +141,7 @@
 
               <p>
                 <label for="txt-room-topic" class="col-form-label">Topic:</label>
-                <input type="text" class="form-control" id="txt-room-topic">
+                <input type="text" class="form-control" id="txt-room-topic  ">
               </p>
               <p class="more-options">
                 <label class="col-form-label"><input type="checkbox" id="chk-room-password"> Private party?</label> <br>
@@ -157,7 +157,7 @@
     <!-- add in FAQ, etc. here -->
     <script>
       //base for this script taken from Muaz Khan's dashboard example. Check out his work - it's so cool.
-      var publicRoomIdentifier = 'maskerade';
+      var publicRoomIdentifier = 'dashboard';
 
       var connection = new RTCMultiConnection();
 
@@ -408,13 +408,13 @@
 
           var roomtopic = $('#txt-room-topic').val().toString();
           if (!roomtopic || !roomtopic.replace(/ /g, '').length) {
-              alertBox('Please enter your name.', 'Your Name Is Required');
+              alertBox('Please enter a topic.', 'A topic is Required');
               return;
           }
 
           connection.extra.txtRoomTopic = roomtopic;
 
-          if($('#chk-room-password').prop('checked') === true){
+          /*if($('#chk-room-password').prop('checked') === true){
             var roomPassword = $('#txt-room-password').val().toString();
             if (!roomPassword || !roomPassword.replace(/ /g, '').length) {
                 alertBox('Please enter room password.', 'Password Box Is Empty');
@@ -422,7 +422,7 @@
             }
             //probably can drop
             connection.password = roomPassword;
-          }    
+          } */   
 
           var initialHTML = $('#btn-create-room').html();
 
@@ -449,10 +449,10 @@
           });
       });
 
-      $('#chk-room-password').change(function() {
+      /*$('#chk-room-password').change(function() {
         $('#txt-room-password').parent().css('display', this.checked === true ? 'block' : 'none');
         $('#txt-room-password').focus();
-      });
+      });*/
 
       var txtRoomId = document.getElementById('txt-roomid');
 
