@@ -149,18 +149,6 @@ let send_flag = false;
         params[d(match[1])] = d(match[2]);
     window.params = params;
 })();
-
-//connection.extra.userFullName = params.userFullName;
-/// make this room public
-connection.publicRoomIdentifier = params.publicRoomIdentifier;
-//unclear what this does? anything?
-connection.socketMessageEvent = 'maskerade';
-// keep room opened even if owner leaves
-connection.autoCloseEntireSession = true;
-// https://www.rtcmulticonnection.org/docs/maxParticipantsAllowed/
-connection.maxParticipantsAllowed = 6;
-connection.extra.txtRoomTopic = params.roomtopic;
-
 // Code for initializing data + sound only connection 
 var connection = new RTCMultiConnection();
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; //should look into getting my own
@@ -177,6 +165,18 @@ connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: true,
     OfferToReceiveVideo: false
 };
+//connection.extra.userFullName = params.userFullName;
+/// make this room public
+connection.publicRoomIdentifier = params.publicRoomIdentifier;
+//unclear what this does? anything?
+connection.socketMessageEvent = 'maskerade';
+// keep room opened even if owner leaves
+connection.autoCloseEntireSession = true;
+// https://www.rtcmulticonnection.org/docs/maxParticipantsAllowed/
+connection.maxParticipantsAllowed = 6;
+connection.extra.txtRoomTopic = params.roomtopic;
+
+
 // This code adds in the audio playback. Should work to make it hidden. 
 connection.onstream = function(event) {
     document.body.appendChild( event.mediaElement );
