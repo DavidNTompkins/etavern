@@ -247,13 +247,13 @@
                   var roomid = $(this).attr('data-roomid');
                   $('#txt-roomid-hidden').val(roomid);
 
-                  $('#btn-show-join-hidden-room').click();
+                  joinAHiddenRoom(roomid); //$('#btn-show-join-hidden-room').click();
 
                   /*if($(this).attr('data-password-protected') === 'true') {
                     $('#txt-room-password-hidden').parent().show();
                   }
                   else {*/
-                  $('#txt-room-password-hidden').parent().hide();
+                  //$('#txt-room-password-hidden').parent().hide();
                   //}
 
                   $(tr).find('.join-room').prop('disabled', false);
@@ -267,8 +267,8 @@
         $('#joinRoomModel').modal('show');
       }); */
       // unlikely to need this next chunk -is for joining by name
-      /*
-      $('#btn-join-hidden-room').click(function() {
+      
+      /*$('#btn-join-hidden-room').click(function() {
           var roomid = $('#txt-roomid-hidden').val().toString();
           if (!roomid || !roomid.replace(/ /g, '').length) {
               alertBox('Please enter room-id.', 'Room ID Is Required');
@@ -303,8 +303,8 @@
           }
 
           joinAHiddenRoom(roomid);
-      });
-      */
+      }); */
+      
      /* function joinAHiddenRoom(roomid) {
           var initialHTML = $('#btn-join-hidden-room').html();
 
@@ -328,7 +328,7 @@
         //need to incorporate on main page 
       function openCanvasDesigner() {
           $('#startRoomModel').modal('hide'); // appears to be: Openorjoin + room name + (DROPPED)-key for mainpage +user name. 
-          var href = location.href + 'maskerade.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier +'&roomtopic=' +connection.extra.txtRoomTopic;
+          var href = location.href + 'maskerade.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier +'&  roomtopic=' +connection.extra.txtRoomTopic;
           
           /*if(!!connection.password) {
             href += '&password=' + connection.password;
