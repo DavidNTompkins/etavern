@@ -305,7 +305,7 @@
           joinAHiddenRoom(roomid);
       }); */
       
-     /* function joinAHiddenRoom(roomid) {
+     function joinAHiddenRoom(roomid) {
           var initialHTML = $('#btn-join-hidden-room').html();
 
           $('#btn-join-hidden-room').html('Please wait...').prop('disabled', true);
@@ -322,9 +322,9 @@
               $('#joinRoomModel').modal('hide');
               openCanvasDesigner();
 
-              $('#btn-join-hidden-room').html(initialHTML).prop('disabled', false);
+              //$('#btn-join-hidden-room').html(initialHTML).prop('disabled', false);
           })
-      } */
+      } 
         //need to incorporate on main page 
       function openCanvasDesigner() {
           $('#startRoomModel').modal('hide'); // appears to be: Openorjoin + room name + (DROPPED)-key for mainpage +user name. 
