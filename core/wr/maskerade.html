@@ -191,7 +191,7 @@ connection.onPeerStateChanged = function(state) {
       connected_flag = true;
     }
 };
-connection.extra.img_origin= "../../assets/dnt32.jpg";
+connection.extra.img_origin= "../../assets/faces/"+params.face+".jpg";
 connection.socketCustomParameters = '&extra=' + JSON.stringify(connection.extra);
 
 connection.onExtraDataUpdated = function(event) {
@@ -406,7 +406,7 @@ async function init() {
   //material.map = referenceFace.texture;
   status.textContent = "Detecting face...";
   update_flags.set("myself",true);
-  add_screen("myself","../../assets/dnt32.jpg");//referenceFaces.get("myself").texture);
+  add_screen("myself","../../assets/faces/"+params.face+".jpg");//referenceFaces.get("myself").texture);
   await render(model);
   status.textContent = "We're all David here.";
 
