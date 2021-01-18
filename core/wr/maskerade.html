@@ -393,7 +393,7 @@ async function init() {
   status.textContent = "Loading model... hold on...";
   let default_texture;
   [default_texture, model, modelRef] = await Promise.all([
-    loader.loadAsync("../../assets/dnt32.jpg"),
+    loader.loadAsync("../../assets/faces/"+params.face+".jpg"),
     facemesh.load({ maxFaces: 1 }),
     facemesh.load({ maxFaces: 1 }),
   ]);

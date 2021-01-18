@@ -53,8 +53,9 @@
         clear: both;
       }
       #face_icon{
-        padding-top: 10%;
-        width: 30%;        
+        margin-top: 10%;
+        width: 50%;
+        box-shadow: 0px 0px 15px yellow;         
       }
       button {
         background-color: purple;
@@ -94,9 +95,8 @@
         font-weight: bold;
         background-color:purple;
         color:gold;
-
-
       }
+      
     </style>
   </head>
 
@@ -125,9 +125,9 @@
         <div class="col">
           This is you
           <br>
-          <img id="face_icon" src="../../assets/dnt_icon.png">
+          <video id="face_icon"  playsinline autoplay muted loop> <source id='facesrc' src="../../assets/webms/david.webm" type="video/webm"></video> 
           <br>
-          <button id="notme">That's me</button> 
+          <button id="notme">Try again</button> 
         </div>
         <div class="col">Start a Room
           <br>
@@ -156,6 +156,7 @@
     </div>
     <!-- add in FAQ, etc. here -->
     <script>
+      let listoffaces = ['anthony','cassandra','chadwick','chichi','dana','david','derek','fred','greta','hank','karen','kevin','lenny','linda','maria','mike','muerta','rachael','ricardo','sam','santa','sarah','tess','tyler'];
       //base for this script taken from Muaz Khan's dashboard example (also maker of the rtcmulticonnection library). Check out his work - it's incredible.
       var publicRoomIdentifier = 'maskerade';
 
@@ -167,6 +168,7 @@
       /// make this room public
       connection.publicRoomIdentifier = publicRoomIdentifier;
       connection.socketMessageEvent = publicRoomIdentifier;
+      connection.extra.face - 'david'; // setting default face image
 
       // keep room opened even if owner leaves
       connection.autoCloseEntireSession = true;
@@ -260,6 +262,18 @@
               });
           });
       }
+
+      document.getElementById('notme').onclick = function() {
+        let newface = listoffaces[Math.floor(Math.random() * listoffaces.length)];
+        connection.extra.face = newface;
+        var video = document.getElementById('face_icon');
+        var source = document.getElementById('facesrc');
+        video.pause();
+        source.setAttribute('src', '../../assets/webms/'+newface+'.webm'); 
+        video.load();
+        video.play();
+      };
+
       //
       /*$('#btn-show-join-hidden-room').click(function(e) {
         e.preventDefault();
@@ -328,7 +342,7 @@
         //need to incorporate on main page 
       function openCanvasDesigner() {
           $('#startRoomModel').modal('hide'); // appears to be: Openorjoin + room name + (DROPPED)-key for mainpage +user name. 
-          var href = location.href + 'maskerade.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier +'&roomtopic=' +connection.extra.txtRoomTopic;
+          var href = location.href + 'maskerade.html?open=' + connection.isInitiator + '&sessionid=' + connection.sessionid + '&publicRoomIdentifier=' + connection.publicRoomIdentifier +'&roomtopic=' +connection.extra.txtRoomTopic +'&face='+connection.extra.face;
           
           /*if(!!connection.password) {
             href += '&password=' + connection.password;
