@@ -428,9 +428,10 @@
 
           connection.extra.txtRoomTopic = roomtopic;
 
-          /*if($('#chk-room-password').prop('checked') === true){
-            var roomPassword = $('#txt-room-password').val().toString();
-            if (!roomPassword || !roomPassword.replace(/ /g, '').length) {
+          if($('#chk-room-password').prop('checked') === true){
+            publicRoomIdentifier ="";
+          }
+          /*  if (!roomPassword || !roomPassword.replace(/ /g, '').length) {
                 alertBox('Please enter room password.', 'Password Box Is Empty');
                 return;
             }

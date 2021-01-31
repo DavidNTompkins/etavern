@@ -83,12 +83,12 @@
 
 
 
-  <button id="btn-open-room">Open Room</button>
+ <!--  <button id="btn-open-room">Open Room</button>
   <button id="btn-join-room">Join Room</button>
   <input type="text" id="img_origin" value="Put an URL here">
   <button id="load_a_face">New Look</button>
   <hr>
-  <!-- buttons above from rtc, section below from facemesh -->
+  --> <!-- buttons above from rtc, section below from facemesh -->
     <div id="status">Loading...</div>
     <div id="container">
       <canvas id="canvas"></canvas>
@@ -175,7 +175,7 @@ connection.socketMessageEvent = 'maskerade';
 // keep room opened even if owner leaves
 connection.autoCloseEntireSession = true;
 // https://www.rtcmulticonnection.org/docs/maxParticipantsAllowed/
-connection.maxParticipantsAllowed = 6;
+connection.maxParticipantsAllowed = 2;
 connection.extra.txtRoomTopic = params.roomtopic;
 
 
