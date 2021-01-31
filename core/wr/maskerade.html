@@ -211,7 +211,7 @@ if (params.open === true || params.open === 'true') {
   connection.join(params.sessionid);
   }
 
-document.getElementById('btn-open-room').onclick = function() {
+/* document.getElementById('btn-open-room').onclick = function() {
     this.disabled = true;
     connection.open( predefinedRoomId );
 };
@@ -226,7 +226,7 @@ document.getElementById('load_a_face').onclick = async function() {
     connection.extra.img_origin= document.getElementById("img_origin").value;
     connection.updateExtraData();
 };
-
+*/
 setInterval(() => send_flag=true, min_send_period);
 
 // ---------------------------------------
