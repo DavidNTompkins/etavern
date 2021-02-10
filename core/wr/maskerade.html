@@ -394,8 +394,8 @@ async function init() {
   let default_texture;
   [default_texture, model, modelRef] = await Promise.all([
     loader.loadAsync("../../assets/faces/"+params.face+".jpg"),
-    facemesh.load({ maxFaces: 1 }),
-    facemesh.load({ maxFaces: 1 }),
+    face_mesh.load({ maxFaces: 1 }),
+    face_mesh.load({ maxFaces: 1 }),
   ]);
   try {
     default_face= await getFace(modelRef, default_texture);
