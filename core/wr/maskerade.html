@@ -358,9 +358,9 @@ async function render(model) {
           facemeshes.get(entry[0]).uvs[j * 2 + 1] = 1 - y;
         }
         facemeshes.get(entry[0]).getAttribute("uv").needsUpdate = true;
-        const x_origin =(0.6-(((k+1.5)%2)*0.6));
-        const y_origin =(1.4-Math.ceil(0.5*(k+1.3))*0.5)
-        facemeshes.get(entry[0]).setSize((2*x_origin*windowWidth), (2*y_origin*windowHeight)); 
+        const x_origin =(0.6-(((k+1)%2)*0.6));
+        const y_origin =(1.4-Math.ceil(0.5*(k+1))*0.5)
+        facemeshes.get(entry[0]).setSize((x_origin*windowWidth), (y_origin*windowHeight)); 
       }
       k+=1;
       };
