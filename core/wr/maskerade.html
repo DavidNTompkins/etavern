@@ -360,7 +360,7 @@ async function render(model) {
         facemeshes.get(entry[0]).getAttribute("uv").needsUpdate = true;
         const x_origin =0.3//(0.6-(((k+1)%2)*0.6)); // uncomment for original
         const y_origin =0.8 //(1.4-Math.ceil(0.5*(k+1))*0.5)
-        facemeshes.get(entry[0]).setSize((x_origin*windowWidth), (y_origin*windowHeight)); 
+        facemeshes.get(entry[0]).setSize((3*x_origin*windowWidth), (3* y_origin*windowHeight)); 
       }
       k+=1;
       };
